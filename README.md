@@ -52,7 +52,3 @@ The website is compatible with all modern browsers:
 - Firefox
 - Safari
 - Edge
-
-## License
-
-This project is open source and available under the MIT License. 

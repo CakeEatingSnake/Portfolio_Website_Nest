@@ -615,59 +615,6 @@ const initAnimations = () => {
         element.style.transform = 'scale(0.95)';
         scaleObserver.observe(element);
     });
-
-    // Flickering animation for project information elements
-    /*
-    const flickerIn = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const projectInfo = entry.target.querySelector('.project-information');
-                if (projectInfo) {
-                    const elements = [
-                        projectInfo.querySelector('.project-image-1'),
-                        projectInfo.querySelector('.project-title-text'),
-                        projectInfo.querySelector('.project-sub-title'),
-                        projectInfo.querySelector('.project-description'),
-                        projectInfo.querySelector('.project-image-2')
-                    ].filter(el => el !== null);
-
-                    elements.forEach((element, index) => {
-                        // Create flicker effect: 0 -> 1 -> 0 -> 1 -> 1 (final stay)
-                        anime({
-                            targets: element,
-                            opacity: [
-                                { value: 0, duration: 0 },
-                                { value: 1, duration: 50 },
-                                { value: 0, duration: 30 },
-                                { value: 1, duration: 40 },
-                                { value: 0, duration: 25 },
-                                { value: 1, duration: 35 },
-                                { value: 0, duration: 30 },
-                                { value: 1, duration: 200 }
-                            ],
-                            delay: index * 100, // Stagger each element
-                            easing: 'linear'
-                        });
-                    });
-                }
-                observer.unobserve(entry.target);
-            }
-        });
-    };
-
-    // Create observer for project containers
-    const projectObserverOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px'
-    };
-    const projectObserver = new IntersectionObserver(flickerIn, projectObserverOptions);
-
-    // Observe all project containers - COMMENTED OUT: flicker animation disabled
-   
-    document.querySelectorAll('.project-container').forEach(container => {
-        projectObserver.observe(container);
-    });
-    */
 };
 
 // Add scroll progress indicator
