@@ -67,9 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Get navigation elements
     const homeButtons = document.querySelectorAll('.text-wrapper-2');
-    const projectsButtons = document.querySelectorAll('.text-wrapper-3');
-    const aboutButtons = document.querySelectorAll('.text-wrapper-4');
-    const projectButtons2 = document.querySelectorAll('.text-wrapper-5');
+    const Pograming_AI_button = document.querySelectorAll('.text-wrapper-3');
+    const Malmo_lib_button = document.querySelectorAll('.text-wrapper-4');
+    const Kinaesthetics_button = document.querySelectorAll('.text-wrapper-5');
     
     // Function to handle page navigation
     function navigateToPage(page) {
@@ -77,10 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Add click event listeners for navigation (support multiple instances)
-    homeButtons.forEach(btn => btn && btn.addEventListener('click', () => navigateToPage('index.html')));
-    projectsButtons.forEach(btn => btn && btn.addEventListener('click', () => navigateToPage('projects.html')));
-    aboutButtons.forEach(btn => btn && btn.addEventListener('click', () => navigateToPage('about.html')));
-    projectButtons2.forEach(btn => btn && btn.addEventListener('click', () => navigateToPage('projects.html')));
+    homeButtons.forEach(btn => btn.addEventListener('click', () => navigateToPage('index.html')));
+    Malmo_lib_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
+    Pograming_AI_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
+    Kinaesthetics_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics.html')));
     
     // Clear any active styles to ensure no default black background
     document.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4').forEach(button => {
@@ -162,9 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
             rightMenuDropdown.appendChild(clone);
             // Re-bind navigation for cloned items
             rightMenuDropdown.querySelectorAll('.text-wrapper-2').forEach(btn => btn.addEventListener('click', () => navigateToPage('index.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-3').forEach(btn => btn.addEventListener('click', () => navigateToPage('projects.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-4').forEach(btn => btn.addEventListener('click', () => navigateToPage('about.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('projects.html')));
+            rightMenuDropdown.querySelectorAll('.text-wrapper-3').forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
+            rightMenuDropdown.querySelectorAll('.text-wrapper-4').forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
+            rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics_button.html')));
             
             // Apply hover effects to cloned menu items
             rightMenuDropdown.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4, .text-wrapper-5').forEach(button => {

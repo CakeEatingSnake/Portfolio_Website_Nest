@@ -16,8 +16,9 @@ A modern, Swiss-style portfolio website built with HTML, CSS, and JavaScript. Th
 ```
 portfolio-website/
 ├── index.html          # Home page
-├── projects.html       # Projects page
-├── about.html          # About page
+├── Malmo_lib.html      # Malmö Library Research page
+├── Programing_AI.html  # Programing Assistive AI About page
+├── Kinaesthetics.html  # Kinaesthetics Prototyping About page
 ├── styles.css          # Main stylesheet
 ├── script.js           # JavaScript functionality
 └── README.md           # Project documentation
