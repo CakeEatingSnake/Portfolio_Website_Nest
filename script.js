@@ -1,4 +1,47 @@
-// Loading Screen Handler
+// 1. Helper function to blend between your two specific colors
+function mixColors(p) {
+    const c1 = [0, 62, 220];
+    const c2 = [10, 10, 10];
+    
+    const r = Math.round(c1[0] + (c2[0] - c1[0]) * p);
+    const g = Math.round(c1[1] + (c2[1] - c1[1]) * p);
+    const b = Math.round(c1[2] + (c2[2] - c1[2]) * p);
+    
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+// 2. The Animation Function
+function startColorShuffle() {
+    anime({
+        targets: '.square',
+        backgroundColor: function() {
+            // Pick a new random shade for EACH square
+            return mixColors(Math.random());
+        },
+        duration: 140, // Takes 1 second to transition
+        complete: function(anim) {
+            // When the 1-second animation finishes, run it again with NEW colors
+            startColorShuffle();
+        }
+    });
+}
+
+function createGrid() {
+    const container = document.querySelector('#grid-container'); 
+    
+    if (container) {
+        // 11 wide * 6 high = 66 squares
+        for (let i = 0; i < 66; i++) {
+            const square = document.createElement('div');
+            square.className = 'square';
+            square.style.backgroundColor = mixColors(Math.random());
+            container.appendChild(square);
+        }
+        startColorShuffle();
+    }
+}
+
+// 2. Hide the loading screen when page is ready
 function hideLoadingScreen() {
     const loadingOverlay = document.getElementById('loading-overlay');
     const desktop = document.querySelector('.desktop');
@@ -10,40 +53,34 @@ function hideLoadingScreen() {
         // Show main content
         desktop.classList.add('loaded');
         
-        // Remove loading overlay from DOM after animation completes
+        // Remove from display after fade animation
         setTimeout(() => {
-            if (loadingOverlay.parentNode) {
-                loadingOverlay.style.display = 'none';
-            }
+            loadingOverlay.style.display = 'none';
         }, 500);
     }
 }
 
-// Wait for all resources to load
+
 function waitForPageLoad() {
     const loadingOverlay = document.getElementById('loading-overlay');
     if (!loadingOverlay) return;
     
-    // Wait for window load (all resources including images)
     window.addEventListener('load', function() {
-        // Additional small delay to ensure everything is ready
-        setTimeout(() => {
-            hideLoadingScreen();
-        }, 300);
+        setTimeout(hideLoadingScreen, 3000);
     });
     
-    // Fallback: hide after maximum wait time (in case some resources fail)
+    // Fallback if page takes too long
     setTimeout(() => {
-        if (loadingOverlay && !loadingOverlay.classList.contains('hidden')) {
+        if (!loadingOverlay.classList.contains('hidden')) {
             hideLoadingScreen();
         }
     }, 5000);
 }
 
-// Initialize loading screen handler
+createGrid(); 
 waitForPageLoad();
 
-// Smooth scrolling for navigation links
+// Smooth scrolling for navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
