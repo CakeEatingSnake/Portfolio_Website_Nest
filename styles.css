@@ -26,6 +26,15 @@
     font-display: swap;
 }
 
+html::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -307,6 +316,7 @@ html, body {
 .desktop .text-wrapper-3,
 .desktop .text-wrapper-4,
 .desktop .text-wrapper-5 {
+    margin: 0;
     font-family: "Switzer";
     color: #ffffff;
     font-size: 16px;
@@ -361,9 +371,10 @@ html, body {
 
 /* Main heading - positioned on the left side */
 .desktop .title-wrapper {
+    margin: 0;
+    font-weight: normal;
     font-family: "Instrument";
     color: #ffffff;
-    /* Fluid, responsive hero title */
     font-size: clamp(4rem, 6vw, 4.5rem);
     display: block;
     margin: 0;
@@ -375,6 +386,7 @@ html, body {
 
 /* Subtitle text - below the main heading */
 .desktop .lowertitle {
+    margin: 0;
     font-family: "Switzer";
     font-weight: 300;
     color: #ffffff;
@@ -385,6 +397,7 @@ html, body {
 
 /* Contact info - at the bottom of the text block */
 .desktop .detailtitle {
+    margin: 0;
     width: 200px;
     font-family: "Switzer";
     font-weight: 300;
@@ -397,7 +410,8 @@ html, body {
 .desktop .About-container {
     position: relative;
     width: 100%;
-    margin-top: 6rem;
+    margin-top: 15rem;
+    margin-bottom: 15rem;
     padding: 0 1.5rem;
     display: flex;
     justify-content: center;
@@ -405,48 +419,68 @@ html, body {
 }
 
 .desktop .About {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-        "Arch1"
-        "LPortrait"
-        "Atext"
-        "Arch2";
-    column-gap: 48px;
-    row-gap: 30px;
-    align-items: center;
-    justify-items: center;
+    display: block;
+    place-items: relative;
     width: 100%;
     max-width: 1200px;
+    margin: 0 auto;
 }
 
-.desktop .Arch1 {
-    grid-area: Arch1;
-    display: block;
+
+.desktop .Topilogical-background {
     width: 100%;
+    height: auto;
+    display: block;
+}
+
+.desktop .Portrait-and-about-text-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #002C5B;
+    padding: 2rem;
+}
+
+.desktop .Portrait-and-about-text-container > * {
+    grid-area: 1/1;
 }
 
 .desktop .Portrait {
-    grid-area: LPortrait;
+    width: 100%;
     display: block;
-    width: 55%;
-    max-width: 260px;
+}
+
+.desktop .Name {
+    margin: 0;
+    font-weight: normal;
+    font-family: "Instrument";
+    font-size: 3.2rem;
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    justify-self: start;
+    z-index: 2;
+}
+
+.desktop .Divider {
+    width: 100%;
+    height: 8px;
+    background-color: #ffffff;
+    margin: 0.3rem 0;
+    display: block;
 }
 
 .desktop .About-text {
-    grid-area: Atext;
+    margin: 0;
+    font-weight: lighter;
+    font-family: "Literata";
+    font-size: 1.2rem;
     display: block;
-    font-family: "Switzer";
     color: #ffffff;
-    max-width: 40rem;
-    text-align: left;
+    text-align: center;
     justify-self: start;
-}
-
-.desktop .Arch2 {
-    grid-area: Arch2;
-    display: block;
-    width: 100%;
+    z-index: 2;
 }
 
 .project-container-wrapper {
@@ -488,6 +522,8 @@ html, body {
 }
 
 .desktop .project-title-text {
+    margin: 0;
+    font-weight: normal;
     display: block;
     font-family: "Instrument";
     font-size: clamp(2.3rem, 5vw, 4rem);
@@ -497,6 +533,8 @@ html, body {
 }
 
 .desktop .project-sub-title {
+    margin: 0;
+    font-weight: normal;
     display: block;
     font-family: "Instrument";
     font-size: clamp(1.2rem, 3vw, 2rem);
@@ -506,6 +544,7 @@ html, body {
 }
 
 .desktop .project-description {
+    margin: 0;
     display: block;
     font-family: "Switzer";
     font-size: 0.95rem;
@@ -539,6 +578,7 @@ html, body {
     /* Ensure title-wrapper expands to fill container */
     .desktop .title-wrapper {
         width: 100%;
+        margin: 0;
     }
 
     /* Stack project content so text uses full width */
