@@ -1,4 +1,3 @@
-// 1. Helper function to blend between your two specific colors
 function mixColors(p) {
     const c1 = [0, 62, 220];
     const c2 = [10, 10, 10];
@@ -10,17 +9,14 @@ function mixColors(p) {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-// 2. The Animation Function
 function startColorShuffle() {
     anime({
         targets: '.square',
         backgroundColor: function() {
-            // Pick a new random shade for EACH square
             return mixColors(Math.random());
         },
-        duration: 140, // Takes 1 second to transition
+        duration: 140,
         complete: function(anim) {
-            // When the 1-second animation finishes, run it again with NEW colors
             startColorShuffle();
         }
     });
@@ -89,12 +85,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navigation functionality
+// Console Error command
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if Anime.js is loaded, wait a bit if needed
     if (typeof anime === 'undefined') {
         console.warn('Anime.js not immediately available, waiting for load...');
-        // Wait a bit for CDN to load
         setTimeout(() => {
             if (typeof anime === 'undefined') {
                 console.error('Anime.js failed to load. Some animations may not work.');
@@ -201,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
             rightMenuDropdown.querySelectorAll('.text-wrapper-2').forEach(btn => btn.addEventListener('click', () => navigateToPage('index.html')));
             rightMenuDropdown.querySelectorAll('.text-wrapper-3').forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
             rightMenuDropdown.querySelectorAll('.text-wrapper-4').forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics_button.html')));
+            rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics.html')));
             
             // Apply hover effects to cloned menu items
             rightMenuDropdown.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4, .text-wrapper-5').forEach(button => {
