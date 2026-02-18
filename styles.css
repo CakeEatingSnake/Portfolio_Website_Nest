@@ -238,6 +238,7 @@ html, body {
     gap: 1rem;
     align-items: center;
     justify-content: center;
+    
 }
 
 /* Navigation - positioned in top-right corner */
@@ -805,6 +806,10 @@ html, body {
         z-index: 1;
     }
     
+    .desktop .Portrait-and-about-text-container {
+        width: 50%;
+    }
+    
     /* Hide sidebar-bg on mobile since the icon SVG has its own background */
     .left-sidebar .sidebar-bg {
         display: none;
@@ -881,6 +886,11 @@ html, body {
         padding: 8px 12px;
         min-width: 200px;
         gap: 4px;
+    }
+
+    .desktop .About-text,
+    .desktop .Portrait-and-about-text-container {
+        width: 100%;
     }
 
     .desktop .text-wrapper-2,
