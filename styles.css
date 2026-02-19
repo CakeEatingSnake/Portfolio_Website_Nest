@@ -572,78 +572,6 @@ html, body {
     opacity: 1; /* Changed from 0 - flicker animation disabled */
 }
 
-/* Small-screen layout & text tweaks */
-@media (max-width: 767px) {
-    /* Hide hero video on small screens so text can take the space */
-    .video-container {
-        display: none;
-    }
-
-    /* Expand title container to full width when video is hidden */
-    .title-container {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    /* Ensure title-wrapper expands to fill container */
-    .desktop .title-wrapper {
-        width: 100%;
-        margin: 0;
-    }
-
-    /* Stack project content so text uses full width */
-    .desktop .project-information {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "img1"
-            "title"
-            "subtitle"
-            "img2";
-    }
-
-    /* Hide long project descriptions on phones to keep sections compact */
-    .desktop .project-description {
-        display: none;
-    }
-}
-
-@media (min-width: 768px) {
-    .hero {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .title-container,
-    .video-container {
-        flex: 1 1 0;
-    }
-
-    .desktop .About {
-        grid-template-columns: auto minmax(300px, 1fr);
-        grid-template-areas:
-            "Arch1 Arch1"
-            "LPortrait Atext"
-            "Arch2 Arch2";
-    }
-
-    .desktop .About-text {
-        justify-self: start;
-        text-align: left;
-    }
-}
-
-@media (min-width: 1200px) {
-    .desktop .div {
-        padding-top: 10rem;
-    }
-
-    .project-container-wrapper {
-        margin-top: 8rem;
-    }
-}
-
-
 /* Sidebar animations now handled by Anime.js - keeping classes for compatibility */
 .sidebar-appeared {
     opacity: 1 !important;
@@ -751,11 +679,48 @@ html, body {
 }
 
 /* ==========================
-   Responsive controls for the left and right menu
+   REORDERED MEDIA QUERIES
    ========================== */
 
+/* 1. Desktop Tweaks (Largest) */
+@media (min-width: 1200px) {
+    .desktop .div {
+        padding-top: 10rem;
+    }
 
-/* Medium Screen */
+    .project-container-wrapper {
+        margin-top: 8rem;
+    }
+}
+
+/* 2. Tablet / Wide Mobile */
+@media (min-width: 768px) {
+    .hero {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title-container,
+    .video-container {
+        flex: 1 1 0;
+    }
+
+    .desktop .About {
+        grid-template-columns: auto minmax(300px, 1fr);
+        grid-template-areas:
+            "Arch1 Arch1"
+            "LPortrait Atext"
+            "Arch2 Arch2";
+    }
+
+    .desktop .About-text {
+        justify-self: start;
+        text-align: left;
+    }
+}
+
+/* 3. Medium Screen Layouts */
 @media (max-width: 1460px) {
     .leftsidebar-container {
         left: 16px;
@@ -763,8 +728,8 @@ html, body {
     }
 
     .left-sidebar {
-        top: 16px; /* Aligned with leftsidebar-container top */
-        left: 16px; /* Aligned with leftsidebar-container left */
+        top: 16px; 
+        left: 16px; 
         width: clamp(40px, 10vw, 56px);
         height: clamp(40px, 10vw, 56px);
         border-radius: 50%;
@@ -779,17 +744,14 @@ html, body {
         border-radius: 50%;
     }
 
-    /* Hide long vertical name text on mobile; keep icon as “left menu” */
     .left-sidebar .sidebar-text {
         display: none;
     }
 
-    /* Hide lower white bar on mobile to simplify UI */
     .lower-left-sidebar {
         display: none;
     }
 
-    /* Switch to mobile menu icon and adjust size */
     .left-sidebar .sidebar-icon-desktop {
         display: none;
         opacity: 0;
@@ -810,7 +772,6 @@ html, body {
         width: 50%;
     }
     
-    /* Hide sidebar-bg on mobile since the icon SVG has its own background */
     .left-sidebar .sidebar-bg {
         display: none;
     }
@@ -838,7 +799,7 @@ html, body {
     }
 
     .right-menu {
-        top: 16px; /* Aligned with leftsidebar-container top */
+        top: 16px; 
         right: 16px;
     }
 
@@ -861,13 +822,15 @@ html, body {
         padding: 8px 12px;
     }
 }
+
+/* 4. Background Adjustment */
 @media (max-width: 1267px) {
     .desktop {
         background-color: #002C5B;
     }
 }
 
-/* Mobil Screen Size */
+/* 5. Mobile Layout (Standard) */
 @media (max-width: 768px) {
 
     .desktop {
@@ -903,11 +866,9 @@ html, body {
     }
 
     .right-menu {
-        top: 16px; /* Aligned with leftsidebar-container top (inherited from max-width: 1000px) */
+        top: 16px; 
         right: 20px;
     }
-
-
 
     .right-menu-dropdown {
         right: 20px;
@@ -924,5 +885,34 @@ html, body {
         padding: 10px 0px;
         letter-spacing: 0.3px;
     }
+}
 
+/* 6. Small Phone Adjustments */
+@media (max-width: 767px) {
+    .video-container {
+        display: none;
+    }
+
+    .title-container {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .desktop .title-wrapper {
+        width: 100%;
+        margin: 0;
+    }
+
+    .desktop .project-information {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "img1"
+            "title"
+            "subtitle"
+            "img2";
+    }
+
+    .desktop .project-description {
+        display: none;
+    }
 }
