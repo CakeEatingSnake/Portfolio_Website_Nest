@@ -59,18 +59,17 @@ function hideLoadingScreen() {
 
 function waitForPageLoad() {
     const loadingOverlay = document.getElementById('loading-overlay');
-    if (!loadingOverlay) return;
+    const desktop = document.querySelector('.desktop');
+
+    // If there is no loading overlay, just show the desktop immediately
+    if (!loadingOverlay) {
+        if (desktop) desktop.classList.add('loaded');
+        return; 
+    }
     
     window.addEventListener('load', function() {
         setTimeout(hideLoadingScreen, 3000);
     });
-    
-    // Fallback if page takes too long
-    setTimeout(() => {
-        if (!loadingOverlay.classList.contains('hidden')) {
-            hideLoadingScreen();
-        }
-    }, 5000);
 }
 
 createGrid(); 
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Add click event listeners for navigation (support multiple instances)
-    homeButtons.forEach(btn => btn.addEventListener('click', () => navigateToPage('index.html')));
+    homeButtons.forEach(btn => btn.addEventListener('click', () => navigateToPage('Mapping.html')));
     Malmo_lib_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
     Pograming_AI_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
     Kinaesthetics_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics.html')));
@@ -192,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const clone = originalMenuGroup.cloneNode(true);
             rightMenuDropdown.appendChild(clone);
             // Re-bind navigation for cloned items
-            rightMenuDropdown.querySelectorAll('.text-wrapper-2').forEach(btn => btn.addEventListener('click', () => navigateToPage('index.html')));
+            rightMenuDropdown.querySelectorAll('.text-wrapper-2').forEach(btn => btn.addEventListener('click', () => navigateToPage('Mapping.html')));
             rightMenuDropdown.querySelectorAll('.text-wrapper-3').forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
             rightMenuDropdown.querySelectorAll('.text-wrapper-4').forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
             rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics.html')));

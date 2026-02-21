@@ -1,3 +1,14 @@
+/* 
+Note for the elements in global
+1.meyer-reset
+2.Fonts
+3.html webkit(Scroll bar)
+4.Desktop
+5.Left sidebar & Button
+6.Desktop container menu
+7.Right button & Right menu
+*/
+
 @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
 * {
   -webkit-font-smoothing: antialiased;
@@ -5,17 +16,544 @@
   margin: 0;
   padding: 0;
 }
-html,
-body {
-  margin: 0px;
-  height: 100%;
-  background-color: #ffffff;
+
+@font-face {
+  font-family: "ITC";
+  src: url("Fonts/avantgarde_demi.ttf") format("truetype");
+  font-style: normal;
+  font-display: swap;
 }
-/* a blue color as a generic focus style */
-button:focus-visible {
-  outline: 2px solid #4a90e2 !important;
-  outline: -webkit-focus-ring-color auto 5px !important;
+
+@font-face {
+  font-family: "Instrument";
+  src: url("Fonts/INSTRUMENTSERIF-REGULAR.TTF")format("truetype");
+  font-style: normal;
+  font-display: swap;
 }
-a {
-  text-decoration: none;
+
+@font-face {
+  font-family: "Literata";
+  src: url("Fonts/Literata-VariableFont.ttf") format("truetype");
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Switzer";
+  src: url("Fonts/Switzer-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("Fonts/Satoshi-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-display: swap;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.desktop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+/* ==========================
+   Menu Visability
+   ========================== */
+
+.menu-visible { 
+  opacity: 1; 
+  transform: translateX(0); 
+  pointer-events: auto; 
+  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+}
+.menu-hidden { 
+  opacity: 0; 
+  transform: translateX(6px); 
+  pointer-events: none; 
+  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+}
+
+/* Increase specificity so state classes override base styles */
+.desktop .group.menu-visible { 
+  opacity: 1; 
+  transform: translateX(0); 
+  pointer-events: auto; 
+  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+}
+.desktop .group.menu-hidden { 
+  opacity: 0; 
+  transform: translateX(6px); 
+  pointer-events: none; 
+  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+}
+.desktop .right-menu.menu-visible { 
+  opacity: 1; 
+  transform: translateX(0); 
+  pointer-events: auto; 
+  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+}
+.desktop .right-menu.menu-hidden { 
+  opacity: 0; 
+  transform: translateX(6px); 
+  pointer-events: none; 
+  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+}
+
+/* ==========================
+   Left Sidebar CSS
+   ========================== */
+
+.leftsidebar-container {
+  position: absolute;
+  text-align: center;
+  left: 70px;
+  top: 90px;
+}
+
+/* Left sidebar between page edge and SVG */
+.left-sidebar {
+  position: fixed;
+  top: 90px; /* Aligned with leftsidebar-container top */
+  left: 70px; /* Aligned with leftsidebar-container left */
+  width: 61px;
+  height: 658px;
+  z-index: 5; /* ensure it sits above the background SVG */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 8px;
+  opacity: 0;
+  transform: translateY(-40px);
+  transform-origin: center;
+  will-change: transform;
+  outline: none;
+  border: none;
+  /* Transition removed - now handled by Anime.js */
+  background: none;
+}
+.sidebar-bg {
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  border-radius: 45px;
+  background: #0380F7;
+  z-index: 0;
+  box-shadow: none;
+  /* Transition removed - now handled by Anime.js */
+}
+/* Hover effects now handled by Anime.js in script.js */
+
+.left-sidebar .sidebar-icon {
+  position: relative;
+  z-index: 1;
+  top: 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show desktop icon by default, hide mobile icon */
+.left-sidebar .sidebar-icon-mobile {
+  display: none;
+  opacity: 0;
+}
+
+.left-sidebar .sidebar-icon-desktop {
+  display: block;
+  opacity: 1;
+}
+
+/* Rotated sideways text box inside the left sidebar */
+.left-sidebar .sidebar-text {
+  position: absolute;
+  top: calc(35% + var(--sidebar-text-offset-y, 0px));
+  left: calc(50% + var(--sidebar-text-offset-x, 0px));
+  transform: translate(-50%, -50%) rotate(90deg);
+  padding: 6px 10px;
+  color: #ffffff;
+  font-family: "Instrument";
+  font-size: 50px;
+  letter-spacing: 2px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.lower-left-sidebar {
+  position: fixed;
+  border-radius: 45px;
+  top: 400px;
+  width: 61px; 
+  height: 300px;
+  background: #ffffff;
+  z-index: 4; /* ensure it sits above the background SVG */
+  box-sizing: border-box;
+  opacity: 0;
+
+}
+
+/* ======================================
+   Desktop CSS and manager for left and rightmenu
+   ====================================== */
+
+/* Navigation - positioned in top-right corner */
+.desktop .menu-container,
+.desktop .menu {
+    position: fixed;
+    max-width: calc(100vw - 50px);
+    height: auto;
+    top: 5vh;
+    z-index: 10;
+    right: 200px;
+    left: auto;
+    opacity: 1;
+    transform: translateX(0);
+    /* Transition removed - now handled by Anime.js */
+}
+
+.desktop .menu-group,
+.desktop .overlap-group {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 200px;
+}
+
+/* ==========================
+   Right Menu Button CSS
+   ========================== */
+
+/* Right-side SVG menu that replaces the menu-group after scroll */
+.right-menu-icon {
+    width: 78px;
+    height: auto;
+    display: block;
+}
+
+/* Right menu button & dropdown */
+.right-menu {
+  position: fixed;
+  top: 90px; /* Aligned with leftsidebar-container top */
+  right: 48px;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.right-menu[aria-hidden="false"] {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.right-menu-button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+
+/* ==========================
+   Right Menu Dropdown
+   ========================== */
+
+.right-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 16px);
+  right: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 16px 20px;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  transform-origin: top right;
+  /* Transition removed - now handled by Anime.js */
+  pointer-events: none;
+  min-width: 200px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Dropdown animation now handled by Anime.js - keeping class for state management */
+.right-menu.open .right-menu-dropdown {
+  pointer-events: auto;
+}
+
+/* Ensure cloned menu-group fits dropdown */
+.right-menu-dropdown .menu-group,
+.right-menu-dropdown .overlap-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  min-width: auto;
+}
+
+.right-menu-dropdown .text-wrapper-2,
+.right-menu-dropdown .text-wrapper-3,
+.right-menu-dropdown .text-wrapper-4,
+.right-menu-dropdown .text-wrapper-5 {
+  font-family: "Switzer";
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  white-space: nowrap;
+  position: relative;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.right-menu-dropdown .text-wrapper-2:hover,
+.right-menu-dropdown .text-wrapper-3:hover,
+.right-menu-dropdown .text-wrapper-4:hover,
+.right-menu-dropdown .text-wrapper-5:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(4px);
+}
+
+/* ==========================
+   Menu Text Wrappers
+   ========================== */
+
+.desktop .text-wrapper-2,
+.desktop .text-wrapper-3,
+.desktop .text-wrapper-4,
+.desktop .text-wrapper-5 {
+  margin: 0;
+  font-family: "Switzer";
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  white-space: nowrap;
+  position: relative;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.desktop .text-wrapper-2:hover,
+.desktop .text-wrapper-3:hover,
+.desktop .text-wrapper-4:hover,
+.desktop .text-wrapper-5:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+/* ==========================
+   Sidebar animations
+   ========================== */
+
+/* Sidebar animations now handled by Anime.js - keeping classes for compatibility */
+.sidebar-appeared {
+  opacity: 1 !important;
+}
+
+.lower-left-sidebar-appeared {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+@media (min-width: 1200px) {
+  .desktop .div {
+      padding-top: 10rem;
+  }
+}
+
+@media (max-width: 1460px) {
+  .leftsidebar-container {
+      left: 16px;
+      top: 16px;
+  }
+
+  .left-sidebar {
+      top: 16px; 
+      left: 16px; 
+      width: clamp(40px, 10vw, 56px);
+      height: clamp(40px, 10vw, 56px);
+      border-radius: 50%;
+      padding-top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .sidebar-bg {
+      height: 100%;
+      border-radius: 50%;
+  }
+
+  .left-sidebar .sidebar-text {
+      display: none;
+  }
+
+  .lower-left-sidebar {
+      display: none;
+  }
+
+  .left-sidebar .sidebar-icon-desktop {
+      display: none;
+      opacity: 0;
+  }
+  
+  .left-sidebar .sidebar-icon-mobile {
+      display: block;
+      opacity: 1;
+      top: 0;
+      left: 5px;
+      width: clamp(60px, 10vw, 80px);
+      object-fit: contain;
+      position: absolute;
+      z-index: 1;
+  }
+     
+    .left-sidebar .sidebar-bg {
+        display: none;
+    }
+
+    .desktop .menu-container,
+    .desktop .menu {
+        right: 60px;
+        top: 2.5vh;
+        max-width: calc(100vw - 140px);
+    }
+
+    .desktop .menu-group,
+    .desktop .overlap-group {
+        padding: 10px 14px;
+        min-width: 160px;
+        gap: 6px;
+    }
+
+    .desktop .text-wrapper-2,
+    .desktop .text-wrapper-3,
+    .desktop .text-wrapper-4,
+    .desktop .text-wrapper-5 {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .right-menu {
+        top: 16px; 
+        right: 16px;
+    }
+
+    .right-menu-icon {
+        width: clamp(60px, 10vw, 80px);
+    }
+
+    .right-menu-dropdown {
+        right: 0;
+        top: calc(100% + 12px);
+        min-width: 160px;
+        padding: 10px 14px;
+    }
+
+    .right-menu-dropdown .text-wrapper-2,
+    .right-menu-dropdown .text-wrapper-3,
+    .right-menu-dropdown .text-wrapper-4,
+    .right-menu-dropdown .text-wrapper-5 {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+  
+  .desktop .menu-container,
+  .desktop .menu {
+      right: 10px;
+      top: 3vh;
+      max-width: calc(100vw - 200px);
+  }
+
+  .desktop .menu-group,
+  .desktop .overlap-group {
+      padding: 8px 12px;
+      min-width: 200px;
+      gap: 4px;
+  }
+
+  .desktop .text-wrapper-2,
+  .desktop .text-wrapper-3,
+  .desktop .text-wrapper-4,
+  .desktop .text-wrapper-5 {
+      font-size: 13px;
+      padding: 6px 10px;
+      letter-spacing: 0.3px;
+  }
+
+  .right-menu {
+      top: 16px; 
+      right: 20px;
+  }
+
+  .right-menu-dropdown {
+      right: 20px;
+      top: calc(100% + 10px);
+      min-width: 140px;
+      padding: 8px 12px;
+  }
+
+  .right-menu-dropdown .text-wrapper-2,
+  .right-menu-dropdown .text-wrapper-3,
+  .right-menu-dropdown .text-wrapper-4,
+  .right-menu-dropdown .text-wrapper-5 {
+      font-size: 13px;
+      padding: 10px 0px;
+      letter-spacing: 0.3px;
+  }
 }
