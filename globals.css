@@ -12,7 +12,6 @@ Note for the elements in global
 @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
 * {
   -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }

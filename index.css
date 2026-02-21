@@ -224,7 +224,7 @@ html, body {
     z-index: 2;
 }
 
-.desktop .Divider {
+.desktop .divider {
     width: 100%;
     height: 8px;
     background-color: #ffffff;
@@ -279,7 +279,7 @@ html, body {
     display: block;
     grid-area: img1;
     width: 100%;
-    opacity: 1; /* Changed from 0 - flicker animation disabled */
+    opacity: 1; 
 }
 
 .desktop .project-title-text {
@@ -291,7 +291,7 @@ html, body {
     font-size: clamp(2.3rem, 5vw, 4.3rem);
     color: #ffffff;
     grid-area: title;
-    opacity: 1; /* Changed from 0 - flicker animation disabled */
+    opacity: 1; 
 }
 
 .desktop .project-sub-title {
@@ -302,7 +302,7 @@ html, body {
     font-size: clamp(1.2rem, 3vw, 2.2rem);
     color: #ffffff;
     grid-area: subtitle;
-    opacity: 1; /* Changed from 0 - flicker animation disabled */
+    opacity: 1; 
 }
 
 .desktop .project-description {
@@ -314,14 +314,15 @@ html, body {
     grid-area: desc;
     max-width: 100%;
     line-height: 1.5;
-    opacity: 1; /* Changed from 0 - flicker animation disabled */
+    opacity: 1; 
 }
 
 .desktop .project-image-2 {
     display: block;
     grid-area: img2;
     width: 100%;
-    opacity: 1; /* Changed from 0 - flicker animation disabled */
+    opacity: 1; 
+
 }
 
 

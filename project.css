@@ -14,14 +14,148 @@ html, body {
     opacity: 1;
 }
 
-.leftsidebar-container{
+.desktop .background-frame {
+    background-color: #002C5B;
+    width: 100%;
+    max-width: 1200px;
+    top: 9rem;
+    margin: 0 auto;
+    z-index: 2;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.leftsidebar-container {
     opacity: 1;
 }
 
 .left-sidebar {
     opacity: 1;
+    transform: translateY(0); /* Add this to counteract the -40px in globals.css (Note: Remove when not needed) */
 }
 
-.desktop .right-menu{
+.desktop .right-menu {
     opacity: 1;
+}
+
+.project-container-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.project-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 0rem 6rem;
+    box-sizing: border-box;
+}
+
+
+.content-container, 
+.outcome-container, 
+.end-banner-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.header-image {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    opacity: 1;
+}
+
+.text-container {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    z-index: 3;
+
+    background-color: #FFFFFF;
+    padding: 1rem;
+    padding-top: 65px;
+    text-align: center;
+    width: 242px;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.title {
+    font-family: 'Satoshi';
+    font-weight: 700;
+    font-size: 36px;
+    padding-top: 20px;
+    padding-bottom: 82px;
+    transform: scaleY(1.5);
+}
+
+.bot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: 30px;
+}
+
+.sub-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    font-size: 17px;
+    text-decoration: underline;
+    text-align: left;
+}
+
+.description {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+    text-align: left;
+}
+
+.date {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+    text-align: left;
+}
+
+.objective-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 75px 122px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.obj-text {
+    font-family: Instrument;
+    font-size: 80px;
+    color: #FFFFFF;
+}
+
+.divider {
+    width: 100%;
+    height: 8px;
+    background-color: #ffffff;
+    display: block;
+}
+
+.obj-des {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    color: #ffffff;
 }
