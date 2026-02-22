@@ -6,7 +6,7 @@ html, body {
 }
 
 .desktop {
-    background-color: #001A36;
+    background-color: #002B19;
     opacity: 1;
 }
 
@@ -15,7 +15,7 @@ html, body {
 }
 
 .desktop .background-frame {
-    background-color: #002C5B;
+    background-color: #005532;
     width: 100%;
     max-width: 1200px;
     top: 9rem;
@@ -56,8 +56,6 @@ html, body {
 }
 
 
-.content-container, 
-.outcome-container, 
 .end-banner-container {
     width: 100%;
     display: flex;
@@ -141,7 +139,7 @@ html, body {
     gap: 10px;
 }
 
-.obj-text {
+.obj-title {
     font-family: Instrument;
     font-size: 80px;
     color: #FFFFFF;
@@ -156,6 +154,108 @@ html, body {
 
 .obj-des {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 54px 122px;
+    display: flex;
+    justify-content: center;
+    background-color: #FFFFFF;
+}
+
+.header-frame {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-direction: column;
+    align-items: start;
+}
+
+.content-title {
+    font-family: Instrument;
+    font-size: 80px;
+    color: #000000;
+}
+
+.divider-black {
+    width: 100%;
+    height: 8px;
+    background-color: #000000;
+    display: block;
+}
+
+.content-des {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 22px;
+    color: #000000;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    /* Define the rows based on your requirements */
+    grid-template-areas: 
+        "img1 content-box1"
+        "img1 content-box2"
+        "img2 content-box3"
+        "img3 content-box4";
+    gap: 2rem;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.map-img1 { grid-area: img1; width: 100%; height: auto; }
+.map-img2 { grid-area: img2; width: 100%; height: auto; }
+.map-img3 { grid-area: img3; width: 100%; height: auto; }
+
+.content-content-box1 { grid-area: content-box1; }
+.content-content-box2 { grid-area: content-box2; }
+.content-content-box3 { grid-area: content-box3; }
+.content-content-box4 { grid-area: content-box4; }
+
+
+.content-grid h4
+{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    font-weight: 800;
+    text-decoration: underline;
+    line-height: 1.6;
+    color: #000000;
+    margin: 0;
+}
+
+.content-grid p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000000;
+    margin: 0;
+}
+
+.outcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 75px 122px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.outcome-title {
+    font-family: Instrument;
+    font-size: 80px;
+    color: #FFFFFF;
+}
+
+.outcome-des {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 22px;
     color: #ffffff;
 }

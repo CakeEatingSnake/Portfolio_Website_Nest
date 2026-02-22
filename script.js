@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const homeButtons = document.querySelectorAll('.text-wrapper-2');
     const Pograming_AI_button = document.querySelectorAll('.text-wrapper-3');
     const Malmo_lib_button = document.querySelectorAll('.text-wrapper-4');
-    const Kinaesthetics_button = document.querySelectorAll('.text-wrapper-5');
+    const Kinesthetics_button = document.querySelectorAll('.text-wrapper-5');
     
     // Function to handle page navigation
     function navigateToPage(page) {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     homeButtons.forEach(btn => btn.addEventListener('click', () => navigateToPage('Mapping.html')));
     Malmo_lib_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
     Pograming_AI_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
-    Kinaesthetics_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics.html')));
+    Kinesthetics_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinesthetics.html')));
     
     // Clear any active styles to ensure no default black background
     document.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4').forEach(button => {
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
             rightMenuDropdown.querySelectorAll('.text-wrapper-2').forEach(btn => btn.addEventListener('click', () => navigateToPage('Mapping.html')));
             rightMenuDropdown.querySelectorAll('.text-wrapper-3').forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
             rightMenuDropdown.querySelectorAll('.text-wrapper-4').forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinaesthetics.html')));
+            rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinesthetics.html')));
             
             // Apply hover effects to cloned menu items
             rightMenuDropdown.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4, .text-wrapper-5').forEach(button => {
