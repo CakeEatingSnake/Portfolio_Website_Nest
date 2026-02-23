@@ -195,15 +195,19 @@ html, body {
     color: #000000;
 }
 
+/* ==========================
+   Gird for Mapping html
+   ========================== */
+
 .content-grid {
     display: grid;
     grid-template-columns: 1fr 1fr; 
     /* Define the rows based on your requirements */
     grid-template-areas: 
-        "img1 content-box1"
-        "img1 content-box2"
-        "img2 content-box3"
-        "img3 content-box4";
+        "img1 box1"
+        "img1 box2"
+        "img2 box3"
+        "img3 box4";
     gap: 2rem;
     width: 100%;
     margin-top: 3rem;
@@ -213,13 +217,41 @@ html, body {
 .map-img2 { grid-area: img2; width: 100%; height: auto; }
 .map-img3 { grid-area: img3; width: 100%; height: auto; }
 
-.content-content-box1 { grid-area: content-box1; }
-.content-content-box2 { grid-area: content-box2; }
-.content-content-box3 { grid-area: content-box3; }
-.content-content-box4 { grid-area: content-box4; }
+/* ==========================
+   Gird for Malmo_Lib html
+   ========================== */
 
+   .content-grid2 {
+    display: grid;
+/* What a horrible solution, but this is the only way I can rearrage the elements the way I want. Too Bad! */
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-areas: 
+    "img1 img1 img1 img1 box1 box1"
+    "img1 img1 img1 img1 box1 box1"
+    "img1 img1 img1 img1 box2 box2"
+    "img1 img1 img1 img1 box2 box2"
+    "img2 img2 img2 img3 img3 box3"
+    "img2 img2 img2 img3 img3 box3"
+    "box5 box5 box5 img3 img3 box3"
+    "img4 img4 img4 img4 box4 box4";
+    gap: 3rem;
+    align-items: start;
+    width: 100%;
+}
 
-.content-grid h4
+/* Explicitly mapping your HTML classes to the Grid Areas */
+.lib-img1 { grid-area: img1; width: 100%; }
+.lib-img2 { grid-area: img2; width: 100%; }
+.lib-img3 { grid-area: img3; width: 100%; }
+.lib-img4 { grid-area: img4; width: 100%; }
+
+.content-box1 { grid-area: box1; }
+.content-box2 { grid-area: box2; }
+.content-box3 { grid-area: box3; }
+.content-box4 { grid-area: box4; }
+.content-box5 { grid-area: box5; }
+
+.content-grid, .content-grid2 h4
 {
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
@@ -230,13 +262,17 @@ html, body {
     margin: 0;
 }
 
-.content-grid p {
+.content-grid, .content-grid2 p {
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
     line-height: 1.6;
     color: #000000;
     margin: 0;
 }
+
+/* ==========================
+   CSS for the outcome section, don't use outcome frame if there is no img
+   ========================== */
 
 .outcome-container {
     display: flex;
@@ -245,7 +281,7 @@ html, body {
     padding: 75px 122px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
 }
 
 .outcome-title {
@@ -255,6 +291,48 @@ html, body {
 }
 
 .outcome-des {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.outcome-frame {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+}
+
+.outcome-img-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.outcome-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.image-des {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.outcome-box {
+    flex: 1;
+}
+
+.outcome-box-title {
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: underline;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.outcome-box-text {
     font-family: 'Times New Roman', Times, serif;
     font-size: 22px;
     color: #ffffff;
