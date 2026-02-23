@@ -2,11 +2,25 @@
 html, body {
     margin: 0;
     padding: 0;
-    background-color: #0B0B0B;
+}
+
+.lib-page {
+    background-color: #001A36;
+}
+
+.map-page {
+    background-color: #002B19;
+}
+
+.kine-page {
+    background-color: #472C00;
+}
+
+.AI-page {
+    background-color: #262626;
 }
 
 .desktop {
-    background-color: #002B19;
     opacity: 1;
 }
 
@@ -15,7 +29,7 @@ html, body {
 }
 
 .desktop .background-frame {
-    background-color: #005532;
+
     width: 100%;
     max-width: 1200px;
     top: 9rem;
@@ -24,6 +38,19 @@ html, body {
     box-sizing: border-box;
     position: relative;
 }
+
+.desktop .background-frame-blue {
+    background-color: #002C5B;
+}
+
+.desktop .background-frame-brown {
+    background-color: #8E5700;
+}
+
+.desktop .background-frame-grey {
+    background-color: #5C5C5C;
+}
+
 
 .leftsidebar-container {
     opacity: 1;
@@ -196,13 +223,25 @@ html, body {
 }
 
 /* ==========================
+   Gird assignment for each content box. Note: We are using the same content box for all the pages,
+   but by assigning them to a different grid on each html page, we are able to reuse the same content assignment.
+   This is not true for the img which, need to be assigned.
+   ========================== */
+
+.content-box1 { grid-area: box1; }
+.content-box2 { grid-area: box2; }
+.content-box3 { grid-area: box3; }
+.content-box4 { grid-area: box4; }
+.content-box5 { grid-area: box5; }
+.content-box6 { grid-area: box6; }
+
+/* ==========================
    Gird for Mapping html
    ========================== */
 
 .content-grid {
     display: grid;
     grid-template-columns: 1fr 1fr; 
-    /* Define the rows based on your requirements */
     grid-template-areas: 
         "img1 box1"
         "img1 box2"
@@ -239,19 +278,68 @@ html, body {
     width: 100%;
 }
 
-/* Explicitly mapping your HTML classes to the Grid Areas */
 .lib-img1 { grid-area: img1; width: 100%; }
 .lib-img2 { grid-area: img2; width: 100%; }
 .lib-img3 { grid-area: img3; width: 100%; }
 .lib-img4 { grid-area: img4; width: 100%; }
 
-.content-box1 { grid-area: box1; }
-.content-box2 { grid-area: box2; }
-.content-box3 { grid-area: box3; }
-.content-box4 { grid-area: box4; }
-.content-box5 { grid-area: box5; }
 
-.content-grid, .content-grid2 h4
+/* ==========================
+   Gird for Kinesthetics html
+   ========================== */
+
+   .content-grid3 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-areas: 
+        "img1 img1 img2 img2"
+        "box1 box1 box2 box2"
+        "img3 img3 img4 img4"
+        "box3 box3 box4 box4"
+        "box5 box5 box6 img6"
+        "img5 img5 box6 img6";
+    gap: 2rem;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.Kine-img1 { grid-area: img1; width: 100%; }
+.Kine-img2 { grid-area: img2; width: 100%; }
+.Kine-img3 { grid-area: img3; width: 100%; }
+.Kine-img4 { grid-area: img4; width: 100%; }
+.Kine-img5 { grid-area: img5; width: 100%; }
+.Kine-img6 { grid-area: img6; width: 100%; }
+
+
+/* ==========================
+   Gird for Progaming html
+   ========================== */
+
+
+   .content-grid4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    /* Define the rows based on your requirements */
+    grid-template-areas: 
+        "img1 box1"
+        "img2 box2"
+        "img3 box3"
+        "img4 box4";
+    gap: 2rem;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.AI-img1 { grid-area: img1; width: 100%; }
+.AI-img2 { grid-area: img2; width: 100%; }
+.AI-img3 { grid-area: img3; width: 100%; }
+.AI-img4 { grid-area: img4; width: 100%; }
+
+/* ==========================
+   Styling for the content grid
+   ========================== */
+
+.content-grid h4, .content-grid2 h4, .content-grid3 h4, .content-grid4 h4
 {
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
@@ -262,7 +350,7 @@ html, body {
     margin: 0;
 }
 
-.content-grid, .content-grid2 p {
+.content-grid p, .content-grid2 p, .content-grid3 p, .content-grid4 p {
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
     line-height: 1.6;
