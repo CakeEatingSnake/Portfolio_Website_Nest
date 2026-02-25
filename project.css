@@ -29,7 +29,9 @@ html, body {
 }
 
 .desktop .background-frame {
-
+    /*Note: don't remove background color here as it effects Mapping HTML. 
+    Can't be bothered to create it's onw green frame */
+    background-color: #005532;
     width: 100%;
     max-width: 1200px;
     top: 9rem;
@@ -70,6 +72,7 @@ html, body {
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
+    padding-bottom: 48px;
 }
 
 .project-frame {
@@ -80,13 +83,6 @@ html, body {
     max-width: 1200px;
     padding: 0 0rem 6rem;
     box-sizing: border-box;
-}
-
-
-.end-banner-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
 }
 
 .header-container {

@@ -393,7 +393,7 @@ html {
    Sidebar animations
    ========================== */
 
-/* Sidebar animations now handled by Anime.js - keeping classes for compatibility */
+
 .sidebar-appeared {
   opacity: 1 !important;
 }
@@ -402,6 +402,10 @@ html {
   opacity: 1 !important;
   transform: translateX(0) !important;
 }
+
+/* ==========================
+   media styling that still needs to be fixed.
+   ========================== */
 
 @media (min-width: 1200px) {
   .desktop .div {
@@ -507,6 +511,10 @@ html {
     }
 }
 
+/* ==========================
+   media styling for 768px width screens and below
+   ========================== */
+
 @media (max-width: 768px) {
   
   .desktop .menu-container,
@@ -552,4 +560,103 @@ html {
       padding: 10px 0px;
       letter-spacing: 0.3px;
   }
+}
+
+/* ==========================
+   End banner styling
+   ========================== */
+
+end-banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+
+  background-image: url(Elements_For_Web/Background_End_Frame.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.end-banner-index {
+  background-color: #001A36;
+}
+
+.end-banner-lib {
+  background-color: #001A36;
+}
+
+.end-banner-map {
+  background-color: #002B19;
+}
+
+.end-banner-Kine {
+  background-color: #472C00;
+}
+
+.end-banner-AI {
+  background-color: #262626;
+}
+
+.end-accent {
+  width: 100px;
+  height: 308px;
+  align-items: center;
+}
+
+.end-title-contact-frame {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.end-title-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.end-name {
+  font-family: 'Instrument';
+  text-decoration: underline;
+  letter-spacing: 2px;
+  font-size: 46px;
+  color: #ffffff;
+}
+
+.end-label {
+  font-family: 'Instrument';
+  letter-spacing: 2px;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px 0px;
+}
+
+.contact-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-img {
+  width: 24px;
+}
+
+.contact-name {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+  color: #ffffff;
 }
