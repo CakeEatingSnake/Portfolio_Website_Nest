@@ -1,4 +1,8 @@
 
+/* ==========================
+   html for body and desktop (background colors as well)
+   ========================== */
+
 html, body {
     margin: 0;
     padding: 0;
@@ -54,6 +58,10 @@ html, body {
 }
 
 
+/* ==========================
+   opacity for left and rgiht buttons
+   ========================== */
+
 .leftsidebar-container {
     opacity: 1;
 }
@@ -66,6 +74,10 @@ html, body {
 .desktop .right-menu {
     opacity: 1;
 }
+
+/* ==========================================================
+   project section begins here and goes for the rest of the css
+   ========================================================== */
 
 .project-container-wrapper {
     display: flex;
@@ -81,9 +93,13 @@ html, body {
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    padding: 0 0rem 6rem;
+    padding-bottom: 6rem;
     box-sizing: border-box;
 }
+
+/* ==========================
+   Header \/ \/ \/
+   ========================== */
 
 .header-container {
     position: relative;
@@ -148,9 +164,13 @@ html, body {
 
 .date {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 10px;
+    font-size: 12px;
     text-align: left;
 }
+
+/* ==========================
+   objective containers \/ \/
+   ========================== */
 
 .objective-container {
     display: flex;
@@ -180,6 +200,10 @@ html, body {
     font-size: 22px;
     color: #ffffff;
 }
+
+/* ==========================
+   content containers \/ \/ \/
+   ========================== */
 
 .content-container {
     display: flex;
@@ -338,8 +362,8 @@ html, body {
 .content-grid h4, .content-grid2 h4, .content-grid3 h4, .content-grid4 h4
 {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;
-    font-weight: 800;
+    font-size: 18px;
+    font-weight: 600;
     text-decoration: underline;
     line-height: 1.6;
     color: #000000;
@@ -348,8 +372,8 @@ html, body {
 
 .content-grid p, .content-grid2 p, .content-grid3 p, .content-grid4 p {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.1;
     color: #000000;
     margin: 0;
 }
@@ -413,6 +437,7 @@ html, body {
     font-family: 'Times New Roman', Times, serif;
     text-decoration: underline;
     font-size: 22px;
+    font-weight: 400;
     color: #ffffff;
 }
 
@@ -420,4 +445,228 @@ html, body {
     font-family: 'Times New Roman', Times, serif;
     font-size: 22px;
     color: #ffffff;
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN (created by AI Gemini) \/ \/ \/ With some touches with the grid and the background frame.
+   ========================================================== */
+
+/* 1. Large Screens: Constrain the background frame */
+@media (max-width: 1200px) {
+    .desktop .background-frame {
+        width: 95%;
+        top: 5rem;
+    }
+}
+
+/* 2. Tablets & Small Laptops: Fix the fixed padding and titles */
+@media (max-width: 1024px) {
+
+    .project-frame {
+        padding-bottom: 2rem;
+    }
+
+    .objective-container, 
+    .content-container, 
+    .outcome-container {
+        padding: 60px 50px; /* Reducing the 122px side padding */
+    }
+
+    .obj-title, 
+    .content-title, 
+    .outcome-title {
+        font-size: 60px; /* Scaling down from 80px */
+    }
+
+    .text-container {
+        width: 200px; /* Slightly narrower to fit smaller header images */
+    }
+    
+    .title {
+        font-size: 28px;
+        padding-bottom: 40px;
+    }
+}
+
+/* ==========================
+   The mobile only is critical to this working, it affects the type of display image involved.
+   ========================== */
+
+.mobile-only {
+    display: none !important;
+}
+
+/* 3. Mobile Devices: The biggest transformation */
+@media (max-width: 768px) {
+
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: block !important;
+        width: 100%; /* Ensure it fills the container */
+        height: auto;
+    }
+    .project-frame {
+        padding:0 !important;
+    }
+
+    /* Stack the Header Text */
+    .header-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .text-container {
+        position: relative; /* Remove absolute positioning */
+        top: 0;
+        left: 0;
+        transform: none;
+        width: 100%;
+        padding: 15px 20px;
+    }
+
+    .title {
+        padding-bottom: 20px;
+    }
+
+    .title br {
+        display: none;
+    }
+
+    .sub-title {
+        font-size: 20px;
+    }
+
+    /* Adjust Main Containers */
+    .objective-container, 
+    .content-container, 
+    .outcome-container {
+        padding: 40px 20px;
+    }
+
+    .obj-title, 
+    .content-title, 
+    .outcome-title {
+        font-size: 40px;
+    }
+
+    .description,
+    .obj-des, 
+    .content-des,
+    .outcome-box-title, 
+    .outcome-des,
+    .outcome-box-text {
+        font-size: 18px;
+        line-height: 1.1;
+    }
+
+    /* Fix the Grids for Mapping & Others */
+    /* This forces the images and text boxes to stack vertically */
+    .content-grid, 
+    .content-grid2, 
+    .content-grid3, 
+    .content-grid4 {
+        grid-template-columns: 1fr !important;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* ==========================
+   The mobile only is critical to this working, it affects the type of display image involved.
+   ========================== */
+
+   .content-grid {
+    .map-img1 { order: 1; }
+    .content-box1 { order: 2; }
+    .content-box2 { order: 3; } /* Box 2 follows Box 1 in your desktop grid */
+    .map-img2 { order: 4; }
+    .content-box3 { order: 5; }
+    .map-img3 { order: 6; }
+    .content-box4 { order: 7; }
+    }
+    
+    .content-grid2 {
+    .lib-img1 { order: 1; }
+    .content-box1 { order: 2; }
+    .content-box2 { order: 3; }
+    .lib-img2 { order: 4; }
+    .lib-img3 { order: 5; }
+    .content-box3 { order: 6; }
+    .content-box5 { order: 7; } /* Box 5 is used for mid-grid text in this layout */
+    .lib-img4 { order: 8; }
+    .content-box4 { order: 9; }
+    }
+
+    .content-grid3 {
+    .Kine-img1 { order: 1; }
+    .Kine-img2 { order: 2; }
+    .content-box1 { order: 3; }
+    .content-box2 { order: 4; }
+    .Kine-img3 { order: 5; }
+    .Kine-img4 { order: 6; }
+    .content-box3 { order: 7; }
+    .content-box4 { order: 8; }
+    .content-box5 { order: 9; }
+    .Kine-img5 { order: 10; }
+    .content-box6 { order: 11; }
+    .Kine-img6 { order: 12; }
+    }
+
+    .content-grid4 {
+    .AI-img1 { order: 1; }
+    .content-box1 { order: 2; }
+    .AI-img2 { order: 3; }
+    .content-box2 { order: 4; }
+    .AI-img3 { order: 5; }
+    .content-box3 { order: 6; }
+    .AI-img4 { order: 7; }
+    .content-box4 { order: 8; }
+    }
+
+    .outcome-frame {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    .outcome-img-container {
+        width: 100% !important;
+        align-items: center !important; /* Centers the image and its description */
+    }
+
+    .outcome-img {
+        width: 100% !important;
+        height: auto;
+    }
+
+    .outcome-box {
+        width: 100% !important;
+    }
+
+    /* End Banner Adjustments */
+    end-banner {
+        flex-direction: column;
+        padding: 40px 20px;
+        text-align: center;
+        background-size: cover;
+    }
+
+    .end-accent {
+        display: none; /* Hide the side SVG on small screens to save space */
+    }
+
+    .end-title-contact-frame {
+        align-items: center;
+    }
+
+    .contact-row {
+        justify-content: center;
+        padding-right: 12px;
+    }
+
+    .end-name {
+        font-size: 32px;
+    }
 }
