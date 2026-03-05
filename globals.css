@@ -1,12 +1,15 @@
 /* 
 Note for the elements in global
-1.meyer-reset
-2.Fonts
-3.html webkit(Scroll bar)
-4.Desktop
-5.Left sidebar & Button
-6.Desktop container menu
-7.Right button & Right menu
+1. meyer-reset
+2. Fonts
+3. html webkit (Scrollbar)
+4. Desktop
+5. Menu Visibility
+6. Left Sidebar & Button
+7. Desktop Container Menu
+8. Right Button & Right Menu
+9. Sidebar Animations
+10. End Banner
 */
 
 @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
@@ -15,6 +18,10 @@ Note for the elements in global
   margin: 0;
   padding: 0;
 }
+
+/* ==========================
+   Fonts
+   ========================== */
 
 @font-face {
   font-family: "ITC";
@@ -25,7 +32,7 @@ Note for the elements in global
 
 @font-face {
   font-family: "Instrument";
-  src: url("Fonts/INSTRUMENTSERIF-REGULAR.TTF")format("truetype");
+  src: url("Fonts/INSTRUMENTSERIF-REGULAR.TTF") format("truetype");
   font-style: normal;
   font-display: swap;
 }
@@ -60,6 +67,10 @@ html {
   scrollbar-width: none;
 }
 
+/* ==========================
+   Desktop CSS
+   ========================== */
+
 .desktop {
   display: flex;
   flex-direction: column;
@@ -75,46 +86,49 @@ html {
 }
 
 /* ==========================
-   Menu Visability
+   Menu Visibility
    ========================== */
 
-.menu-visible { 
-  opacity: 1; 
-  transform: translateX(0); 
-  pointer-events: auto; 
-  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
-}
-.menu-hidden { 
-  opacity: 0; 
-  transform: translateX(6px); 
-  pointer-events: none; 
-  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+.menu-visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  transition: opacity 250ms ease, transform 250ms ease;
 }
 
-/* Increase specificity so state classes override base styles */
-.desktop .group.menu-visible { 
-  opacity: 1; 
-  transform: translateX(0); 
-  pointer-events: auto; 
-  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+.menu-hidden {
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease;
 }
-.desktop .group.menu-hidden { 
-  opacity: 0; 
-  transform: translateX(6px); 
-  pointer-events: none; 
-  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+
+.desktop .group.menu-visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  transition: opacity 250ms ease, transform 250ms ease;
 }
-.desktop .right-menu.menu-visible { 
-  opacity: 1; 
-  transform: translateX(0); 
-  pointer-events: auto; 
-  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+
+.desktop .group.menu-hidden {
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease;
 }
-.desktop .right-menu.menu-hidden { 
-  opacity: 0; 
-  transform: translateX(6px); 
-  pointer-events: none; 
-  transition: opacity 250ms ease, transform 250ms ease; /* Fallback transition */
+
+.desktop .right-menu.menu-visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.desktop .right-menu.menu-hidden {
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease;
 }
 
 /* ==========================
@@ -128,14 +142,13 @@ html {
   top: 90px;
 }
 
-/* Left sidebar between page edge and SVG */
 .left-sidebar {
   position: fixed;
-  top: 90px; /* Aligned with leftsidebar-container top */
-  left: 70px; /* Aligned with leftsidebar-container left */
+  top: 90px;
+  left: 70px;
   width: 61px;
   height: 658px;
-  z-index: 5; /* ensure it sits above the background SVG */
+  z-index: 5;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -150,6 +163,7 @@ html {
   border: none;
   background: none;
 }
+
 .sidebar-bg {
   position: absolute;
   width: 100%;
@@ -167,7 +181,6 @@ html {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Show desktop icon by default, hide mobile icon */
 .left-sidebar .sidebar-icon-mobile {
   display: none;
   opacity: 0;
@@ -178,7 +191,6 @@ html {
   opacity: 1;
 }
 
-/* Rotated sideways text box inside the left sidebar */
 .left-sidebar .sidebar-text {
   position: absolute;
   top: calc(35% + var(--sidebar-text-offset-y, 0px));
@@ -197,20 +209,18 @@ html {
   position: fixed;
   border-radius: 45px;
   top: 400px;
-  width: 61px; 
+  width: 61px;
   height: 300px;
   background: #ffffff;
-  z-index: 4; /* ensure it sits above the background SVG */
+  z-index: 4;
   box-sizing: border-box;
   opacity: 0;
-
 }
 
-/* ======================================
-   Desktop CSS and manager for left and rightmenu
-   ====================================== */
+/* ==========================
+   Desktop Container Menu
+   ========================== */
 
-/* Navigation - positioned in top-right corner */
 .desktop .menu-container,
 .desktop .menu {
     position: fixed;
@@ -222,7 +232,6 @@ html {
     left: auto;
     opacity: 1;
     transform: translateX(0);
-    
 }
 
 .desktop .menu-group,
@@ -247,17 +256,15 @@ html {
    Right Menu Button CSS
    ========================== */
 
-/* Right-side SVG menu that replaces the menu-group after scroll */
 .right-menu-icon {
     width: 78px;
     height: auto;
     display: block;
 }
 
-/* Right menu button & dropdown */
 .right-menu {
   position: fixed;
-  top: 90px; /* Aligned with leftsidebar-container top */
+  top: 90px;
   right: 48px;
   z-index: 11;
   display: flex;
@@ -301,18 +308,15 @@ html {
   opacity: 0;
   transform: translateY(-10px) scale(0.95);
   transform-origin: top right;
-  
   pointer-events: none;
   min-width: 200px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-/* Dropdown animation now handled by Anime.js - keeping class for state management */
 .right-menu.open .right-menu-dropdown {
   pointer-events: auto;
 }
 
-/* Ensure cloned menu-group fits dropdown */
 .right-menu-dropdown .menu-group,
 .right-menu-dropdown .overlap-group {
   display: flex;
@@ -390,9 +394,8 @@ html {
 }
 
 /* ==========================
-   Sidebar animations
+   Sidebar Animations
    ========================== */
-
 
 .sidebar-appeared {
   opacity: 1 !important;
@@ -404,166 +407,7 @@ html {
 }
 
 /* ==========================
-   media styling that still needs to be fixed.
-   ========================== */
-
-@media (min-width: 1200px) {
-  .desktop .div {
-      padding-top: 10rem;
-  }
-}
-
-@media (max-width: 1460px) {
-  .leftsidebar-container {
-      left: 16px;
-      top: 16px;
-  }
-
-  .left-sidebar {
-      top: 16px; 
-      left: 16px; 
-      width: clamp(40px, 10vw, 56px);
-      height: clamp(40px, 10vw, 56px);
-      border-radius: 50%;
-      padding-top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
-
-  .sidebar-bg {
-      height: 100%;
-      border-radius: 50%;
-  }
-
-  .left-sidebar .sidebar-text {
-      display: none;
-  }
-
-  .lower-left-sidebar {
-      display: none;
-  }
-
-  .left-sidebar .sidebar-icon-desktop {
-      display: none;
-      opacity: 0;
-  }
-  
-  .left-sidebar .sidebar-icon-mobile {
-      display: block;
-      opacity: 1;
-      top: 0;
-      left: 5px;
-      width: clamp(60px, 10vw, 80px);
-      object-fit: contain;
-      position: absolute;
-      z-index: 1;
-  }
-     
-    .left-sidebar .sidebar-bg {
-        display: none;
-    }
-
-    .desktop .menu-container,
-    .desktop .menu {
-        right: 60px;
-        top: 2.5vh;
-        max-width: calc(100vw - 140px);
-    }
-
-    .desktop .menu-group,
-    .desktop .overlap-group {
-        padding: 10px 14px;
-        min-width: 160px;
-        gap: 6px;
-    }
-
-    .desktop .text-wrapper-2,
-    .desktop .text-wrapper-3,
-    .desktop .text-wrapper-4,
-    .desktop .text-wrapper-5 {
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-
-    .right-menu {
-        top: 16px; 
-        right: 16px;
-    }
-
-    .right-menu-icon {
-        width: clamp(60px, 10vw, 80px);
-    }
-
-    .right-menu-dropdown {
-        right: 0;
-        top: calc(100% + 12px);
-        min-width: 160px;
-        padding: 10px 14px;
-    }
-
-    .right-menu-dropdown .text-wrapper-2,
-    .right-menu-dropdown .text-wrapper-3,
-    .right-menu-dropdown .text-wrapper-4,
-    .right-menu-dropdown .text-wrapper-5 {
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-}
-
-/* ==========================
-   media styling for 768px width screens and below
-   ========================== */
-
-@media (max-width: 768px) {
-  
-  .desktop .menu-container,
-  .desktop .menu {
-      right: 10px;
-      top: 3vh;
-      max-width: calc(100vw - 200px);
-  }
-
-  .desktop .menu-group,
-  .desktop .overlap-group {
-      padding: 8px 12px;
-      min-width: 200px;
-      gap: 4px;
-  }
-
-  .desktop .text-wrapper-2,
-  .desktop .text-wrapper-3,
-  .desktop .text-wrapper-4,
-  .desktop .text-wrapper-5 {
-      font-size: 13px;
-      padding: 6px 10px;
-      letter-spacing: 0.3px;
-  }
-
-  .right-menu {
-      top: 16px; 
-      right: 20px;
-  }
-
-  .right-menu-dropdown {
-      right: 20px;
-      top: calc(100% + 10px);
-      min-width: 140px;
-      padding: 8px 12px;
-  }
-
-  .right-menu-dropdown .text-wrapper-2,
-  .right-menu-dropdown .text-wrapper-3,
-  .right-menu-dropdown .text-wrapper-4,
-  .right-menu-dropdown .text-wrapper-5 {
-      font-size: 13px;
-      padding: 10px 0px;
-      letter-spacing: 0.3px;
-  }
-}
-
-/* ==========================
-   End banner styling
+   End Banner
    ========================== */
 
 end-banner {
@@ -571,35 +415,19 @@ end-banner {
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  display: flex;
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
-
   background-image: url(Elements_For_Web/Background_End_Frame.svg);
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.end-banner-index {
-  background-color: #001A36;
-}
-
-.end-banner-lib {
-  background-color: #001A36;
-}
-
-.end-banner-map {
-  background-color: #002B19;
-}
-
-.end-banner-Kine {
-  background-color: #472C00;
-}
-
-.end-banner-AI {
-  background-color: #262626;
-}
+.end-banner-index  { background-color: #001A36; }
+.end-banner-lib    { background-color: #001A36; }
+.end-banner-map    { background-color: #002B19; }
+.end-banner-Kine   { background-color: #472C00; }
+.end-banner-AI     { background-color: #262626; }
 
 .end-accent {
   width: 100px;
@@ -659,4 +487,210 @@ end-banner {
   font-family: 'Times New Roman', Times, serif;
   font-size: 16px;
   color: #ffffff;
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN FOR GLOBALS
+   ========================================================== */
+
+/* 1. Large Screen Adjustments */
+@media (min-width: 1200px) {
+    .desktop .div {
+        padding-top: 10rem;
+    }
+}
+
+/* 2. Compact Screen Adjustments */
+@media (max-width: 1460px) {
+
+    /* Left Sidebar - Collapse to circular button */
+    .leftsidebar-container {
+        left: 16px;
+        top: 16px;
+    }
+
+    .left-sidebar {
+        top: 16px;
+        left: 16px;
+        width: clamp(40px, 10vw, 56px);
+        height: clamp(40px, 10vw, 56px);
+        border-radius: 50%;
+        padding-top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar-bg {
+        height: 100%;
+        border-radius: 50%;
+        display: none;
+    }
+
+    .left-sidebar .sidebar-text {
+        display: none;
+    }
+
+    .lower-left-sidebar {
+        display: none;
+    }
+
+    .left-sidebar .sidebar-icon-desktop {
+        display: none;
+        opacity: 0;
+    }
+
+    .left-sidebar .sidebar-icon-mobile {
+        display: block;
+        opacity: 1;
+        top: 0;
+        left: 5px;
+        width: clamp(60px, 10vw, 80px);
+        object-fit: contain;
+        position: absolute;
+        z-index: 1;
+    }
+
+    /* Desktop Menu */
+    .desktop .menu-container,
+    .desktop .menu {
+        right: 60px;
+        top: 2.5vh;
+        max-width: calc(100vw - 140px);
+    }
+
+    .desktop .menu-group,
+    .desktop .overlap-group {
+        padding: 10px 14px;
+        min-width: 160px;
+        gap: 6px;
+    }
+
+    .desktop .text-wrapper-2,
+    .desktop .text-wrapper-3,
+    .desktop .text-wrapper-4,
+    .desktop .text-wrapper-5 {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    /* Right Menu */
+    .right-menu {
+        top: 16px;
+        right: 16px;
+    }
+
+    .right-menu-icon {
+        width: clamp(60px, 10vw, 80px);
+    }
+
+    .right-menu-dropdown {
+        right: 0;
+        top: calc(100% + 12px);
+        min-width: 160px;
+        padding: 10px 14px;
+    }
+
+    .right-menu-dropdown .text-wrapper-2,
+    .right-menu-dropdown .text-wrapper-3,
+    .right-menu-dropdown .text-wrapper-4,
+    .right-menu-dropdown .text-wrapper-5 {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
+/* 3. Mobile Adjustments */
+@media (max-width: 768px) {
+
+    /* Desktop Menu */
+    .desktop .menu-container,
+    .desktop .menu {
+        right: 10px;
+        top: 3vh;
+        max-width: calc(100vw - 200px);
+    }
+
+    .desktop .menu-group,
+    .desktop .overlap-group {
+        padding: 8px 12px;
+        min-width: 200px;
+        gap: 4px;
+    }
+
+    .desktop .text-wrapper-2,
+    .desktop .text-wrapper-3,
+    .desktop .text-wrapper-4,
+    .desktop .text-wrapper-5 {
+        font-size: 13px;
+        padding: 6px 10px;
+        letter-spacing: 0.3px;
+    }
+
+    /* Right Menu */
+    .right-menu {
+        top: 16px;
+        right: 20px;
+    }
+
+    .right-menu-dropdown {
+        right: 20px;
+        top: calc(100% + 10px);
+        min-width: 140px;
+        padding: 8px 12px;
+    }
+
+    .right-menu-dropdown .text-wrapper-2,
+    .right-menu-dropdown .text-wrapper-3,
+    .right-menu-dropdown .text-wrapper-4,
+    .right-menu-dropdown .text-wrapper-5 {
+        font-size: 13px;
+        padding: 10px 0px;
+        letter-spacing: 0.3px;
+    }
+
+    /* End Banner */
+    end-banner {
+        flex-direction: column;
+        padding: 40px 20px;
+        text-align: center;
+        background-size: cover;
+    }
+
+    .end-banner-index {
+      background-color: #001A36;
+    }
+    
+    .end-banner-lib {
+      background-color: #001A36;
+    }
+    
+    .end-banner-map {
+      background-color: #002B19;
+    }
+    
+    .end-banner-Kine {
+      background-color: #472C00;
+    }
+    
+    .end-banner-AI {
+      background-color: #262626;
+    }
+
+    .end-accent {
+        display: none;
+    }
+
+    .end-title-contact-frame {
+        align-items: center;
+    }
+
+    .contact-row {
+        justify-content: center;
+        padding-right: 12px;
+    }
+
+    .end-name {
+        font-size: 32px;
+    }
 }

@@ -1,417 +1,447 @@
-
 html {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #0B0B0B;
+  }
+  
+  /* ==========================
+     Loading Overlay
+     ========================== */
+  
+  #loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0B0B0B;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+  }
+  
+  .loading-content-wrapper {
+      position: flex;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  #grid-container {
+      display: grid !important;
+      grid-template-columns: repeat(11, 30px);
+      grid-template-rows: repeat(6, 30px);
+      gap: 8px;
+  }
+  
+  #loading-text {
+      position: relative;
+      left: -140px;
+      color: #ffffff;
+      font-family: "Instrument", sans-serif;
+      font-size: 40px;
+  }
+  
+  .square {
+      width: 30px;
+      height: 30px;
+      background-color: #0B0B0B;
+      border-radius: 2px;
+  }
+  
+  #loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+  }
+  
+  /* ==========================
+     Desktop & Background
+     ========================== */
+  
+  .desktop {
+      background-color: #001A36;
+  }
+  
+  .desktop.loaded {
+      opacity: 1;
+  }
+  
+  .background-container {
+      position: absolute;
+      width: 100vw;
+      height: 22358px;
+      padding: 500px 160px;
+      box-sizing: border-box;
+      z-index: 1;
+  }
+  
+  .background-image {
+      scale: 1;
+      width: 100%;
+      object-fit: contain;
+      object-position: center;
+  }
+  
+  .desktop .div {
+      background-color: #002C5B;
+      width: 100%;
+      max-width: 1200px;
+      top: 2.5rem;
+      margin: 0 auto;
+      z-index: 2;
+      box-sizing: border-box;
+      position: relative;
+  }
+  
+  /* ==========================
+     Hero Section
+     ========================== */
+  
+  .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  .title-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 32rem;
+      padding: 0px 30px;
+  }
+  
+  .video-container {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      min-height: 300px;
+      display: block;
+      z-index: 3;
+  }
+  
+  .video-background {
+      max-height: 75vh;
+      object-fit: contain;
+      display: block;
+      background-color: transparent;
+      opacity: 1;
+  }
+  
+  .desktop .title-wrapper {
+      margin: 0;
+      font-weight: normal;
+      font-family: "Instrument";
+      color: #ffffff;
+      font-size: clamp(3rem, 6vw, 4rem);
+      display: block;
+  }
+  
+  .title-appeared {
+      opacity: 1 !important;
+  }
+  
+  .desktop .lowertitle {
+      margin: 0;
+      font-family: "Switzer";
+      font-weight: 300;
+      color: #ffffff;
+      font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+      letter-spacing: 1px;
+      line-height: 1.6;
+  }
+  
+  .desktop .detailtitle {
+      margin: 0;
+      width: 200px;
+      font-family: "Switzer";
+      font-weight: 300;
+      color: #ffffff;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      letter-spacing: 0.5px;
+      line-height: 1.4;
+  }
+  
+  /* ==========================
+     About Section
+     ========================== */
+  
+  .desktop .About-container {
+      position: relative;
+      width: 100%;
+      margin-top: 15rem;
+      margin-bottom: 15rem;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: center;
+      box-sizing: border-box;
+  }
+  
+  .desktop .About {
+      display: block;
+      place-items: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+  
+  .desktop .Topilogical-background {
+      width: 100%;
+      height: auto;
+      display: block;
+  }
+  
+  .desktop .Portrait-and-about-text-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #002C5B;
+      padding: 2rem;
+  }
+  
+  .desktop .Portrait-and-about-text-container > * {
+      grid-area: 1/1;
+  }
+  
+  .desktop .Portrait {
+      width: 100%;
+      display: block;
+  }
+  
+  .desktop .Name {
+      margin: 0;
+      font-weight: normal;
+      font-family: "Instrument";
+      font-size: 3.2rem;
+      display: block;
+      color: #ffffff;
+      text-align: center;
+      justify-self: start;
+      z-index: 2;
+  }
+  
+  .desktop .divider {
+      width: 100%;
+      height: 8px;
+      background-color: #ffffff;
+      margin: 0.3rem 0;
+      display: block;
+  }
+  
+  .desktop .About-text {
+      margin: 0;
+      font-weight: lighter;
+      font-family: "Literata";
+      font-size: 1.2rem;
+      display: block;
+      color: #ffffff;
+      text-align: center;
+      justify-self: start;
+      z-index: 2;
+  }
+  
+  /* ==========================
+     Project Section
+     ========================== */
+  
+  .project-container-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 6rem auto 0;
+      padding: 0 1.5rem 6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 6rem;
+      box-sizing: border-box;
+  }
+  
+  .project-container {
+      position: relative;
+      display: block;
+  }
+  
+  .desktop .project-information {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      grid-template-areas:
+          "img1 img1"
+          "title desc"
+          "subtitle desc"
+          "img2 img2";
+      column-gap: 32px;
+      row-gap: 40px;
+      align-items: start;
+  }
+  
+  .desktop .project-image-1 {
+      display: block;
+      grid-area: img1;
+      width: 100%;
+      opacity: 1;
+  }
+  
+  .desktop .project-title-text {
+      margin: 0;
+      font-weight: normal;
+      text-decoration: underline;
+      display: block;
+      font-family: "Instrument";
+      font-size: clamp(2.3rem, 5vw, 4.3rem);
+      color: #ffffff;
+      grid-area: title;
+      opacity: 1;
+  }
+  
+  .desktop .project-sub-title {
+      margin: 0;
+      font-weight: normal;
+      display: block;
+      font-family: "Instrument";
+      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      color: #ffffff;
+      grid-area: subtitle;
+      opacity: 1;
+  }
+  
+  .desktop .project-description {
+      margin: 0;
+      display: block;
+      font-family: "Switzer";
+      font-size: 1.3rem;
+      color: #ffffff;
+      grid-area: desc;
+      max-width: 100%;
+      line-height: 1.5;
+      opacity: 1;
+  }
+  
+  .desktop .project-image-2 {
+      display: block;
+      grid-area: img2;
+      width: 100%;
+      opacity: 1;
+  }
+  
+  /* ==========================================================
+     RESPONSIVE DESIGN FOR INDEX
+     ========================================================== */
+  
+  /* 1. Tablet Adjustments */
+  @media (max-width: 1024px) {
+      .desktop .div {
+          width: 95%;
+          top: 2rem;
+      }
+  
+      .project-container-wrapper {
+          gap: 4rem;
+      }
+  }
+  
+  /* 2. Mobile Adjustments */
+  @media (max-width: 768px) {
+  
+      /* Hero Section */
+      .hero {
+          padding: 80px 20px 20px;
+      }
+  
+      .title-container {
+          padding: 0;
+          text-align: center;
+          max-width: 100%;
+      }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    background-color: #0B0B0B;
-}
-/* 1. The Main Wrapper */
-#loading-overlay {
-    position: fixed;
-    inset: 0;
-    background: #0B0B0B;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
-}
-
-/* 2. The Stacking Container */
-.loading-content-wrapper {
-    position: flex;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* 3. The Grid */
-#grid-container {
-    display: grid !important;
-    grid-template-columns: repeat(11, 30px);
-    grid-template-rows: repeat(6, 30px);
-    gap: 8px;
-}
-
-#loading-text {
-    position: relative;
-    left: -140px;
-    color: #ffffff;
-    font-family: "Instrument", sans-serif;
-    font-size: 40px;
-}
-
-.square {
-    width: 30px;
-    height: 30px;
-    background-color: #0B0B0B;
-    border-radius: 2px;
-}
-
-#loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.desktop {
-    background-color: #001A36;
-}
-
-.desktop.loaded {
-    opacity: 1;
-}
-
-/* Background container with SVG image */
-.background-container {
-    position: absolute;
-    width: 100vw;
-    height: 22358px;
-    padding: 500px 160px; 
-    box-sizing: border-box;
-    z-index: 1;
-}
-
-.background-image {
-    scale: 1;
-    width: 100%;
-    object-fit: contain;
-    object-position: center; 
-}
-
-
-.desktop .div {
-    background-color: #002C5B;
-    width: 100%;
-    max-width: 1200px;
-    top: 2.5rem;
-
-    margin: 0 auto;
-    z-index: 2;
-    box-sizing: border-box;
-    position: relative;
-}
-
-.hero {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    
-}
-
-.title-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 32rem;
-    padding: 0px 30px;
-}
-
-.video-container {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    min-height: 300px;
-    display: block;
-    z-index: 3;
-}
-
-.video-background {
-    max-height: 75vh;
-    object-fit: contain;
-    display: block;
-    background-color: transparent;
-    opacity: 1;
-}
-
-/* Main heading - positioned on the left side */
-.desktop .title-wrapper {
-    margin: 0;
-    font-weight: normal;
-    font-family: "Instrument";
-    color: #ffffff;
-    font-size: clamp(3rem, 6vw, 4rem);
-    display: block;
-    margin: 0;
-}
-
-.title-appeared {
-    opacity: 1 !important;
-}
-
-/* Subtitle text - below the main heading */
-.desktop .lowertitle {
-    margin: 0;
-    font-family: "Switzer";
-    font-weight: 300;
-    color: #ffffff;
-    font-size: clamp(0.95rem, 2.4vw, 1.1rem);
-    letter-spacing: 1px;
-    line-height: 1.6;
-}
-
-/* Contact info - at the bottom of the text block */
-.desktop .detailtitle {
-    margin: 0;
-    width: 200px;
-    font-family: "Switzer";
-    font-weight: 300;
-    color: #ffffff;
-    font-size: clamp(0.95rem, 2vw, 1.1rem);
-    letter-spacing: 0.5px;
-    line-height: 1.4;
-}
-
-.desktop .About-container {
-    position: relative;
-    width: 100%;
-    margin-top: 15rem;
-    margin-bottom: 15rem;
-    padding: 0 1.5rem;
-    display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-}
-
-.desktop .About {
-    display: block;
-    place-items: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-
-.desktop .Topilogical-background {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.desktop .Portrait-and-about-text-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #002C5B;
-    padding: 2rem;
-}
-
-.desktop .Portrait-and-about-text-container > * {
-    grid-area: 1/1;
-}
-
-.desktop .Portrait {
-    width: 100%;
-    display: block;
-}
-
-.desktop .Name {
-    margin: 0;
-    font-weight: normal;
-    font-family: "Instrument";
-    font-size: 3.2rem;
-    display: block;
-    color: #ffffff;
-    text-align: center;
-    justify-self: start;
-    z-index: 2;
-}
-
-.desktop .divider {
-    width: 100%;
-    height: 8px;
-    background-color: #ffffff;
-    margin: 0.3rem 0;
-    display: block;
-}
-
-.desktop .About-text {
-    margin: 0;
-    font-weight: lighter;
-    font-family: "Literata";
-    font-size: 1.2rem;
-    display: block;
-    color: #ffffff;
-    text-align: center;
-    justify-self: start;
-    z-index: 2;
-}
-
-.project-container-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 6rem auto 0;
-    padding: 0 1.5rem 6rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 6rem;
-    box-sizing: border-box;
-}
-
-.project-container {
-    position: relative;
-    display: block;
-}
-
-.desktop .project-information {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    grid-template-areas:
-        "img1 img1"
-        "title desc"
-        "subtitle desc"
-        "img2 img2";
-    column-gap: 32px;
-    row-gap: 40px;
-    align-items: start;
-}
-
-.desktop .project-image-1 {
-    display: block;
-    grid-area: img1;
-    width: 100%;
-    opacity: 1; 
-}
-
-.desktop .project-title-text {
-    margin: 0;
-    font-weight: normal;
-    text-decoration: underline;
-    display: block;
-    font-family: "Instrument";
-    font-size: clamp(2.3rem, 5vw, 4.3rem);
-    color: #ffffff;
-    grid-area: title;
-    opacity: 1; 
-}
-
-.desktop .project-sub-title {
-    margin: 0;
-    font-weight: normal;
-    display: block;
-    font-family: "Instrument";
-    font-size: clamp(1.2rem, 3vw, 2.2rem);
-    color: #ffffff;
-    grid-area: subtitle;
-    opacity: 1; 
-}
-
-.desktop .project-description {
-    margin: 0;
-    display: block;
-    font-family: "Switzer";
-    font-size: 1.3rem;
-    color: #ffffff;
-    grid-area: desc;
-    max-width: 100%;
-    line-height: 1.5;
-    opacity: 1; 
-}
-
-.desktop .project-image-2 {
-    display: block;
-    grid-area: img2;
-    width: 100%;
-    opacity: 1; 
-
-}
-
-
-/* ==========================
-   REORDERED MEDIA QUERIES
-   ========================== */
-
-/* 1. Desktop Tweaks (Largest) */
-@media (min-width: 1200px) {
-    .desktop .div {
-        padding-top: 10rem;
-    }
-
-    .project-container-wrapper {
-        margin-top: 8rem;
-    }
-}
-
-/* 2. Tablet / Wide Mobile */
-@media (min-width: 768px) {
-    .hero {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .title-container,
-    .video-container {
-        flex: 1 1 0;
-    }
-
-    .desktop .About-text {
-        justify-self: start;
-        text-align: left;
-    }
-}
-
-/* 3. Medium Screen Layouts */
-@media (max-width: 1460px) {
-    .desktop .Portrait-and-about-text-container {
-        width: 50%;
-    }
- 
-}
-
-/* 4. Background Adjustment */
-@media (max-width: 1267px) {
-    .desktop {
-        background-color: #002C5B;
-    }
-}
-
-/* 5. Mobile Layout (Standard) */
-@media (max-width: 768px) {
-
-    .desktop {
-        background-color: #002C5B;
-    }
-
-    .desktop .About-text,
-    .desktop .Portrait-and-about-text-container {
-        width: 100%;
-    }
-
-    .video-container {
+      .desktop .detailtitle {
+        width: 100% !important;
+        margin: 0 auto !important;
+      }
+  
+      .desktop .title-wrapper {
+          font-size: 2.5rem;
+          line-height: 1.2;
+      }
+  
+      .video-container {
         display: none;
-    }
+      }
+  
+      /* Remove <br> on mobile for the hero title */
+      .title-wrapper br {
+          display: none;
+      }
+  
+      .title-wrapper br::after {
+          content: " ";
+      }
+  
+      /* About Section */
+      .desktop .About-container {
+          margin-top: 5rem;
+          margin-bottom: 5rem;
+      }
+  
+      .desktop .About {
+          display: flex;
+          flex-direction: column;
+      }
 
-    .title-container {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .desktop .title-wrapper {
-        width: 100%;
-        margin: 0;
-    }
-
-    .desktop .project-information {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "img1"
-            "title"
-            "subtitle"
-            "img2";
-    }
-
-    .desktop .project-description {
+      .Topilogical-background {
         display: none;
-    }
-}
+      }
+
+      .desktop .Portrait-and-about-text-container {
+        width: 80%;
+      }
+      .desktop .Name {
+        font-size: 32px;
+      }
+      
+      .desktop .About-text{
+        font-size: 18px;
+        width: 100%;
+        text-align: start !important;
+        }
+
+      /* Project Grid Stack */
+      .desktop .project-information {
+          grid-template-columns: 1fr;
+          grid-template-areas:
+              "title"
+              "img1"
+              "subtitle"
+              "desc"
+              "img2";
+          row-gap: 20px;
+      }
+  
+      .desktop .project-title-text {
+          font-size: 2rem;
+          letter-spacing: 0.1rem;
+      }
+  
+      .desktop .project-sub-title {
+          font-size: 1.5rem;
+      }
+  
+      .desktop .project-description {
+          display: block;
+          font-size: 0.8rem;
+      }
+  
+      /* Force background color for visibility */
+      .desktop {
+          background-color: #001A36 !important;
+      }
+  }
