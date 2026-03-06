@@ -58,6 +58,13 @@ Note for the elements in global
   font-display: swap;
 }
 
+@font-face {
+  font-family: "ppneuebit";
+  src: url("Fonts/ppneuebit-bold.otf") format("truetype");
+  font-style: normal;
+  font-display: swap;
+}
+
 html::-webkit-scrollbar {
   display: none;
 }
