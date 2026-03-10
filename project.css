@@ -24,9 +24,6 @@ html, body {
     background-color: #262626;
 }
 
-.desktop {
-    opacity: 1;
-}
 
 .desktop.loaded {
     opacity: 1;

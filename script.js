@@ -1,705 +1,576 @@
-function mixColors(p) {
+/* ==========================================================
+   script.js — Marvin Rycken Portfolio
+   
+   Sections:
+   1. Loading Screen  (index.html only)
+   2. Page Entry Animations
+   3. Sidebar
+   4. Menu System (text menu → icon menu on scroll)
+   5. Scroll Animations (Intersection Observer)
+   6. Utilities
+   ========================================================== */
+
+
+/* ==========================================================
+   1. LOADING SCREEN
+   Only runs if #loading-overlay exists (index.html)
+   ========================================================== */
+
+   function mixColors(p) {
     const c1 = [0, 62, 220];
     const c2 = [10, 10, 10];
-    
     const r = Math.round(c1[0] + (c2[0] - c1[0]) * p);
     const g = Math.round(c1[1] + (c2[1] - c1[1]) * p);
     const b = Math.round(c1[2] + (c2[2] - c1[2]) * p);
-    
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-function startColorShuffle() {
-    anime({
-        targets: '.square',
-        backgroundColor: function() {
-            return mixColors(Math.random());
-        },
-        duration: 140,
-        complete: function(anim) {
-            startColorShuffle();
-        }
-    });
-}
-
 function createGrid() {
-    const container = document.querySelector('#grid-container'); 
-    
-    if (container) {
-        // 11 wide * 6 high = 66 squares
-        for (let i = 0; i < 66; i++) {
-            const square = document.createElement('div');
-            square.className = 'square';
-            square.style.backgroundColor = mixColors(Math.random());
-            container.appendChild(square);
-        }
-        startColorShuffle();
+    const container = document.querySelector('#grid-container');
+    if (!container) return;
+
+    for (let i = 0; i < 66; i++) {
+        const square = document.createElement('div');
+        square.className = 'square';
+        square.style.backgroundColor = mixColors(Math.random());
+        container.appendChild(square);
     }
+
+    // Continuously shuffle square colors
+    function shuffleColors() {
+        anime({
+            targets: '.square',
+            backgroundColor: () => mixColors(Math.random()),
+            duration: 140,
+            complete: shuffleColors
+        });
+    }
+    shuffleColors();
 }
 
-// 2. Hide the loading screen when page is ready
 function hideLoadingScreen() {
-    const loadingOverlay = document.getElementById('loading-overlay');
+    const overlay = document.getElementById('loading-overlay');
     const desktop = document.querySelector('.desktop');
-    
-    if (loadingOverlay && desktop) {
-        // Fade out loading overlay
-        loadingOverlay.classList.add('hidden');
-        
-        // Show main content
-        desktop.classList.add('loaded');
-        
-        // Remove from display after fade animation
-        setTimeout(() => {
-            loadingOverlay.style.display = 'none';
-        }, 500);
-    }
+    if (!overlay || !desktop) return;
+
+    overlay.classList.add('hidden');
+    desktop.classList.add('loaded');
+    setTimeout(() => { overlay.style.display = 'none'; }, 500);
 }
 
-
-function waitForPageLoad() {
-    const loadingOverlay = document.getElementById('loading-overlay');
+function initLoadingScreen() {
+    const overlay = document.getElementById('loading-overlay');
     const desktop = document.querySelector('.desktop');
+    const currentPage = document.body.dataset.page;
 
-    // If there is no loading overlay, just show the desktop immediately
-    if (!loadingOverlay) {
+    // --- Project pages: simple fade in, no overlay needed ---
+    if (!overlay) {
+        if (desktop) {
+            // Small delay lets fonts and CSS fully apply before revealing
+            setTimeout(() => {
+                desktop.classList.add('loaded');
+            }, 300);
+        }
+        return;
+    }
+
+    // --- Index page: full loading animation ---
+    // Check if the animation has already played this session
+    const alreadyPlayed = sessionStorage.getItem('loadingPlayed');
+
+    if (alreadyPlayed) {
+        // Skip straight to showing content
+        overlay.style.display = 'none';
         if (desktop) desktop.classList.add('loaded');
-        return; 
+        return;
     }
-    
-    window.addEventListener('load', function() {
-        setTimeout(hideLoadingScreen, 3000);
+
+    // First visit this session — play the full animation
+    createGrid();
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            hideLoadingScreen();
+            // Remember that it played so we skip it next time
+            sessionStorage.setItem('loadingPlayed', 'true');
+        }, 3000);
     });
 }
 
-createGrid(); 
-waitForPageLoad();
 
-// Smooth scrolling for navigation
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
-});
+/* ==========================================================
+   2. PAGE ENTRY ANIMATIONS
+   Runs on all pages. Animates whatever elements exist.
+   ========================================================== */
 
-// Console Error command
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof anime === 'undefined') {
-        console.warn('Anime.js not immediately available, waiting for load...');
-        setTimeout(() => {
-            if (typeof anime === 'undefined') {
-                console.error('Anime.js failed to load. Some animations may not work.');
-            }
-        }, 100);
-    }
+function initEntryAnimations() {
+    const sidebar  = document.querySelector('.left-sidebar');
+    const menuGroup = document.querySelector('.overlap-group') || document.querySelector('.menu-group');
 
-    // Get navigation elements
-    const homeButtons = document.querySelectorAll('.text-wrapper-2');
-    const Pograming_AI_button = document.querySelectorAll('.text-wrapper-3');
-    const Malmo_lib_button = document.querySelectorAll('.text-wrapper-4');
-    const Kinesthetics_button = document.querySelectorAll('.text-wrapper-5');
-    
-    // Function to handle page navigation
-    function navigateToPage(page) {
-        window.location.href = page;
-    }
-    
-    // Add click event listeners for navigation (support multiple instances)
-    homeButtons.forEach(btn => btn.addEventListener('click', () => navigateToPage('Mapping.html')));
-    Malmo_lib_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
-    Pograming_AI_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
-    Kinesthetics_button.forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinesthetics.html')));
-    
-    // Clear any active styles to ensure no default black background
-    document.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4').forEach(button => {
-        button.classList.remove('active');
-    });
-    
-    // Add hover effects with Anime.js - Fixed to properly clear background
-    document.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4, .text-wrapper-5').forEach(button => {
-        if (button && !button.classList.contains('active')) {
-            let hoverAnimation = null;
-            
-            // Ensure initial state is transparent
-            button.style.backgroundColor = 'transparent';
-            
-            button.addEventListener('mouseenter', function() {
-                if (!this.classList.contains('active')) {
-                    // Pause and reset any existing animation
-                    if (hoverAnimation) {
-                        hoverAnimation.pause();
-                        hoverAnimation = null;
-                    }
-                    // Clear any inline styles that might interfere
-                    this.style.backgroundColor = '';
-                    
-                    hoverAnimation = anime({
-                        targets: this,
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        duration: 200,
-                        easing: 'easeOutQuad'
-                    });
-                }
-            });
-            
-            button.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('active')) {
-                    // Pause and reset any existing animation
-                    if (hoverAnimation) {
-                        hoverAnimation.pause();
-                        hoverAnimation = null;
-                    }
-                    
-                    hoverAnimation = anime({
-                        targets: this,
-                        backgroundColor: 'transparent',
-                        duration: 200,
-                        easing: 'easeOutQuad',
-                        complete: () => {
-                            // Ensure background is cleared after animation
-                            this.style.backgroundColor = 'transparent';
-                            hoverAnimation = null;
-                        }
-                    });
-                }
-            });
-        }
-    });
-
-    // Initialize animations
-    initAnimations();
-
-    // Toggle text menu vs RightMenu.svg on scroll
-    const textMenu = document.querySelector('.menu-container') || document.querySelector('.menu');
-    const rightMenu = document.querySelector('.right-menu');
-    const rightMenuButton = document.querySelector('.right-menu-button');
-    const rightMenuDropdown = document.querySelector('.right-menu-dropdown');
-    const SCROLL_THRESHOLD = 85; // px from top; adjust as needed
-
-    // Store animation instances for menu transitions
-    let textMenuAnimation = null;
-    let rightMenuAnimation = null;
-    // Track current menu state to prevent unnecessary animations
-    let currentMenuState = null; // 'text' or 'right'
-
-    // Populate dropdown with cloned menu-group once
-    if (rightMenuDropdown && textMenu) {
-        const originalMenuGroup = textMenu.querySelector('.menu-group') || textMenu.querySelector('.overlap-group');
-        if (originalMenuGroup) {
-            const clone = originalMenuGroup.cloneNode(true);
-            rightMenuDropdown.appendChild(clone);
-            // Re-bind navigation for cloned items
-            rightMenuDropdown.querySelectorAll('.text-wrapper-2').forEach(btn => btn.addEventListener('click', () => navigateToPage('Mapping.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-3').forEach(btn => btn.addEventListener('click', () => navigateToPage('Malmo_lib.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-4').forEach(btn => btn.addEventListener('click', () => navigateToPage('Programing_AI.html')));
-            rightMenuDropdown.querySelectorAll('.text-wrapper-5').forEach(btn => btn.addEventListener('click', () => navigateToPage('Kinesthetics.html')));
-            
-            // Apply hover effects to cloned menu items
-            rightMenuDropdown.querySelectorAll('.text-wrapper-2, .text-wrapper-3, .text-wrapper-4, .text-wrapper-5').forEach(button => {
-                if (button && !button.classList.contains('active')) {
-                    let hoverAnimation = null;
-                    button.style.backgroundColor = 'transparent';
-                    
-                    button.addEventListener('mouseenter', function() {
-                        if (!this.classList.contains('active')) {
-                            if (hoverAnimation) {
-                                hoverAnimation.pause();
-                                hoverAnimation = null;
-                            }
-                            this.style.backgroundColor = '';
-                            
-                            hoverAnimation = anime({
-                                targets: this,
-                                backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                                duration: 200,
-                                easing: 'easeOutQuad'
-                            });
-                        }
-                    });
-                    
-                    button.addEventListener('mouseleave', function() {
-                        if (!this.classList.contains('active')) {
-                            if (hoverAnimation) {
-                                hoverAnimation.pause();
-                                hoverAnimation = null;
-                            }
-                            
-                            hoverAnimation = anime({
-                                targets: this,
-                                backgroundColor: 'transparent',
-                                duration: 200,
-                                easing: 'easeOutQuad',
-                                complete: () => {
-                                    this.style.backgroundColor = 'transparent';
-                                    hoverAnimation = null;
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    const setRightMenuOpen = (open) => {
-        if (!rightMenu || !rightMenuDropdown || !rightMenuButton) return;
-
-        if (open) {
-            // Make it measurable for animation
-            rightMenuDropdown.hidden = false;
-            rightMenu.classList.add('open');
-            rightMenuButton.setAttribute('aria-expanded', 'true');
-            
-            // Animate dropdown open with Anime.js (with fallback)
-            if (typeof anime !== 'undefined') {
-                anime({
-                    targets: rightMenuDropdown,
-                    opacity: [0, 1],
-                    translateY: [-10, 0],
-                    scale: [0.95, 1],
-                    duration: 200,
-                    easing: 'cubicBezier(0.22, 1, 0.36, 1)'
-                });
-            } else {
-                // Fallback if Anime.js not loaded
-                rightMenuDropdown.style.opacity = '1';
-                rightMenuDropdown.style.transform = 'translateY(0) scale(1)';
-            }
-        } else {
-            // Animate dropdown close with Anime.js (with fallback)
-            if (typeof anime !== 'undefined') {
-                anime({
-                    targets: rightMenuDropdown,
-                    opacity: [1, 0],
-                    translateY: [0, -10],
-                    scale: [1, 0.95],
-                    duration: 200,
-                    easing: 'cubicBezier(0.22, 1, 0.36, 1)',
-                    complete: () => {
-                        rightMenu.classList.remove('open');
-                        rightMenuDropdown.hidden = true;
-                        // Update menu state if needed after closing dropdown
-                        const y = window.scrollY || document.documentElement.scrollTop;
-                        if (y < SCROLL_THRESHOLD) {
-                            currentMenuState = null; // Force update on next scroll
-                            updateMenus();
-                        }
-                    }
-                });
-            } else {
-                // Fallback if Anime.js not loaded
-                rightMenu.classList.remove('open');
-                rightMenuDropdown.hidden = true;
-                rightMenuDropdown.style.opacity = '0';
-                rightMenuDropdown.style.transform = 'translateY(-10px) scale(0.95)';
-            }
-            rightMenuButton.setAttribute('aria-expanded', 'false');
-        }
-    };
-
-    const onOutsideClick = (e) => {
-        if (!rightMenu) return;
-        if (!rightMenu.contains(e.target)) {
-            setRightMenuOpen(false);
-            document.removeEventListener('click', onOutsideClick);
-        }
-    };
-
-    if (rightMenuButton) {
-        rightMenuButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = rightMenu.classList.contains('open');
-            setRightMenuOpen(!isOpen);
-            if (!isOpen) {
-                // Close when clicking outside
-                setTimeout(() => document.addEventListener('click', onOutsideClick), 0);
-            }
-        });
-    }
-
-    const updateMenus = () => {
-        const y = window.scrollY || document.documentElement.scrollTop;
-        const showRightMenu = y >= SCROLL_THRESHOLD;
-        
-        // Determine desired state
-        let desiredState = showRightMenu ? 'right' : 'text';
-        
-        // If dropdown is open and user scrolls above threshold, keep right menu visible until closed
-        if (!showRightMenu && rightMenu.classList.contains('open')) {
-            desiredState = 'right';
-        }
-
-        // Only animate if state actually changed
-        if (textMenu && rightMenu && currentMenuState !== desiredState) {
-            if (desiredState === 'right') {
-                // Hide text menu, show right menu
-                if (typeof anime !== 'undefined') {
-                    if (textMenuAnimation) textMenuAnimation.pause();
-                    textMenuAnimation = anime({
-                        targets: textMenu,
-                        opacity: [1, 0],
-                        translateX: [0, 6],
-                        duration: 250,
-                        easing: 'easeInOutQuad',
-                        complete: () => {
-                            textMenu.style.pointerEvents = 'none';
-                        }
-                    });
-
-                    if (rightMenuAnimation) rightMenuAnimation.pause();
-                    rightMenu.setAttribute('aria-hidden', 'false');
-                    rightMenu.style.pointerEvents = 'auto';
-                    rightMenu.style.visibility = 'visible';
-                    rightMenu.style.pointerEvents = 'auto';
-                    rightMenuAnimation = anime({
-                        targets: rightMenu,
-                        opacity: [0, 1],
-                        translateX: [6, 0],
-                        duration: 250,
-                        easing: 'easeInOutQuad'
-                    });
-                } else {
-                    // Fallback: use CSS classes
-                    textMenu.classList.remove('menu-visible');
-                    textMenu.classList.add('menu-hidden');
-                    textMenu.style.pointerEvents = 'none';
-                    rightMenu.classList.remove('menu-hidden');
-                    rightMenu.classList.add('menu-visible');
-                    rightMenu.setAttribute('aria-hidden', 'false');
-                    rightMenu.style.pointerEvents = 'auto';
-                }
-                
-                currentMenuState = 'right';
-            } else {
-                // Hide right menu, show text menu
-                if (typeof anime !== 'undefined') {
-                    if (rightMenuAnimation) rightMenuAnimation.pause();
-                    rightMenuAnimation = anime({
-                        targets: rightMenu,
-                        opacity: [1, 0],
-                        translateX: [0, 6],
-                        duration: 250,
-                        easing: 'easeInOutQuad',
-                        complete: () => {
-                            rightMenu.style.pointerEvents = 'none';
-                            rightMenu.style.visibility = 'hidden';
-                            rightMenu.setAttribute('aria-hidden', 'true');
-                        }
-                    });
-
-                    if (textMenuAnimation) textMenuAnimation.pause();
-                    textMenu.style.pointerEvents = 'auto';
-                    textMenuAnimation = anime({
-                        targets: textMenu,
-                        opacity: [0, 1],
-                        translateX: [6, 0],
-                        duration: 250,
-                        easing: 'easeInOutQuad'
-                    });
-                } else {
-                    // Fallback: use CSS classes
-                    rightMenu.classList.remove('menu-visible');
-                    rightMenu.classList.add('menu-hidden');
-                    rightMenu.style.pointerEvents = 'none';
-                    rightMenu.setAttribute('aria-hidden', 'true');
-                    textMenu.classList.remove('menu-hidden');
-                    textMenu.classList.add('menu-visible');
-                    textMenu.style.pointerEvents = 'auto';
-                }
-                
-                currentMenuState = 'text';
-            }
-        }
-    };
-
-    // Set initial states based on scroll position
-    const initialY = window.scrollY || document.documentElement.scrollTop;
-    const showRightMenuInitially = initialY >= SCROLL_THRESHOLD;
-    
-    if (textMenu) {
-        if (showRightMenuInitially) {
-            textMenu.style.opacity = '0';
-            textMenu.style.transform = 'translateX(6px)';
-            textMenu.style.pointerEvents = 'none';
-        } else {
-            textMenu.style.opacity = '1';
-            textMenu.style.transform = 'translateX(0)';
-            textMenu.style.pointerEvents = 'auto';
-        }
-    }
-    
-    if (rightMenu) {
-        if (showRightMenuInitially) {
-            rightMenu.style.opacity = '1';
-            rightMenu.style.transform = 'translateX(0)';
-            rightMenu.style.pointerEvents = 'auto';
-            rightMenu.style.visibility = 'visible';
-            rightMenu.setAttribute('aria-hidden', 'false');
-        } else {
-            rightMenu.style.opacity = '0';
-            rightMenu.style.transform = 'translateX(6px)';
-            rightMenu.style.pointerEvents = 'none';
-            rightMenu.style.visibility = 'hidden';
-            rightMenu.setAttribute('aria-hidden', 'true');
-        }
-    }
-    
-    // Initialize current state based on scroll position
-    currentMenuState = showRightMenuInitially ? 'right' : 'text';
-    
-    updateMenus();
-    window.addEventListener('scroll', updateMenus, { passive: true });
-
-    // Initialize page load animations with Anime.js
-    const title = document.querySelector('.title-wrapper');
-    const sidebar = document.querySelector('.left-sidebar');
-    const lowersidebar = document.querySelector('.lower-left-sidebar');
-    const sidebarBg = document.querySelector('.sidebar-bg');
-    const lowertitle = document.querySelector('.lowertitle');
+    // Index-only elements (gracefully skipped on project pages)
+    const title       = document.querySelector('.title-wrapper');
+    const lowertitle  = document.querySelector('.lowertitle');
     const detailtitle = document.querySelector('.detailtitle');
-    const menuGroup = document.querySelector('.menu-group') || document.querySelector('.overlap-group');
-    const leftIcon = document.querySelector('sidebar-icon-mobile');
-    const rightIcon = document.querySelector('Right Menu Icon');
-    // Title animation
-    if (title) {
+
+    // Project-page header elements (gracefully skipped on index)
+    const headerImage = document.querySelector('.header-image');
+    const headerText  = document.querySelector('.text-container');
+
+    // Sidebar always animates in
+    if (sidebar) {
         anime({
-            targets: [title, lowertitle, detailtitle],
-            opacity: [0, 1],
-            translateY: [40, 0],
-            duration: 800,
-            delay: anime.stagger(200),
-            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-        });
-    if (menuGroup) {
-        anime({
-            targets: [menuGroup],
+            targets: sidebar,
             opacity: [0, 1],
             translateY: [-40, 0],
-            duration: 800,
+            duration: 700,
+            delay: 400,
             easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
         });
     }
-    // Sidebar animation (after title)
-        if (sidebar) {
-            anime({
-                targets: sidebar,
-                opacity: [0, 1],
-                translateY: [-40, 0],
-                duration: 700,
-                delay: 700,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)',
 
-                complete: () => {
-                    if (lowersidebar) {
-                        anime({
-                            targets: lowersidebar,
-                            opacity: [0, 1],
-                            translateY: [-40, 0],
-                            duration: 200,
-                            easing: 'cubicBezier(0.53, 0.54, 0.71, 0.73)'
-                        });
-                    }
-                }
-            });
-        }
-    }
-
-    if (leftIcon) {
-        let hoverLeftIcon = null
-
-        leftIcon.style.transformOrigin = 'center center';
-
-        leftIcon.addEventListener('mouseenter', () => {
-            if (hoverLeftIcon) hoverLeftIcon.pause();
-            hoverLeftIcon = anime({
-                target:leftIcon,
-                scale: isEntering ? 1.07 : 1,
-                duration: 300,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-            });
-        })
-    }
-    // Sidebar hover effects with Anime.js
-    if (sidebar && sidebarBg) {
-        let hoverScaleAnimation = null;
-
-        sidebar.addEventListener('mouseenter', () => {
-            if (hoverScaleAnimation) hoverScaleAnimation.pause();
-            hoverScaleAnimation = anime({
-                targets: sidebarBg,
-                scale: 1.07,
-                boxShadow: [
-                    { value: '0 0px 0px rgba(0,0,0,0)', duration: 0 },
-                    { value: '0 10px 32px rgba(0,0,0,0.18)', duration: 300 }
-                ],
-                duration: 300,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-            });
-        });
-
-        sidebar.addEventListener('mouseleave', () => {
-            if (hoverScaleAnimation) hoverScaleAnimation.pause();
-            hoverScaleAnimation = anime({
-                targets: sidebarBg,
-                scale: 1,
-                boxShadow: [
-                    { value: '0 10px 32px rgba(0,0,0,0.18)', duration: 0 },
-                    { value: '0 0px 0px rgba(0,0,0,0)', duration: 300 }
-                ],
-                duration: 300,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-            });
-        });
-
-        sidebar.addEventListener('focus', () => {
-            if (hoverScaleAnimation) hoverScaleAnimation.pause();
-            hoverScaleAnimation = anime({
-                targets: sidebarBg,
-                scale: 1.07,
-                boxShadow: [
-                    { value: '0 0px 0px rgba(0,0,0,0)', duration: 0 },
-                    { value: '0 10px 32px rgba(0,0,0,0.18)', duration: 300 }
-                ],
-                duration: 300,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-            });
-        });
-
-        sidebar.addEventListener('blur', () => {
-            if (hoverScaleAnimation) hoverScaleAnimation.pause();
-            hoverScaleAnimation = anime({
-                targets: sidebarBg,
-                scale: 1,
-                boxShadow: [
-                    { value: '0 10px 32px rgba(0,0,0,0.18)', duration: 0 },
-                    { value: '0 0px 0px rgba(0,0,0,0)', duration: 300 }
-                ],
-                duration: 300,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-            });
+    // Menu always animates in from top
+    if (menuGroup) {
+        anime({
+            targets: menuGroup,
+            opacity: [0, 1],
+            translateY: [-20, 0],
+            duration: 600,
+            delay: 300,
+            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
         });
     }
 
-    // Add scroll-to-top functionality for left-sidebar button
-    const leftSidebar = document.querySelector('.left-sidebar');
-    if (leftSidebar) {
-        leftSidebar.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Index hero text stagger
+    const heroElements = [title, lowertitle, detailtitle].filter(Boolean);
+    if (heroElements.length) {
+        anime({
+            targets: heroElements,
+            opacity: [0, 1],
+            translateY: [30, 0],
+            duration: 800,
+            delay: anime.stagger(180, { start: 200 }),
+            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
         });
     }
-});
 
-// Enhanced animations using Intersection Observer with Anime.js
-const initAnimations = () => {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const fadeInUp = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                anime({
-                    targets: entry.target,
-                    opacity: [0, 1],
-                    translateY: [20, 0],
-                    duration: 500,
-                    easing: 'easeOutQuad'
+    // Project page header fade in
+    if (headerImage) {
+        anime({
+            targets: headerImage,
+            opacity: [0, 1],
+            duration: 600,
+            delay: 200,
+            easing: 'easeOutQuad'
+        });
+    }
+    if (headerText) {
+        anime({
+            targets: headerText,
+            opacity: [0, 1],
+            duration: 600,
+            delay: 400,
+            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)',
+            complete: (anim) => {
+                anim.animatables.forEach(a => {
+                    a.target.style.transform = '';
                 });
-                observer.unobserve(entry.target);
             }
         });
-    };
+    }
+}
 
-    const scaleIn = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                anime({
-                    targets: entry.target,
-                    opacity: [0, 1],
-                    scale: [0.95, 1],
-                    duration: 500,
-                    easing: 'easeOutQuad'
-                });
-                observer.unobserve(entry.target);
-            }
-        });
-    };
 
-    // Create observers
-    const fadeObserver = new IntersectionObserver(fadeInUp, observerOptions);
-    const scaleObserver = new IntersectionObserver(scaleIn, observerOptions);
+/* ==========================================================
+   3. SIDEBAR
+   Scroll-to-top on click. Hover scale animation on the bg pill.
+   ========================================================== */
 
-    // Observe elements
-    document.querySelectorAll('.work-item, .project-card').forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(20px)';
-        fadeObserver.observe(element);
+function initSidebar() {
+    const sidebar   = document.querySelector('.left-sidebar');
+    const sidebarBg = document.querySelector('.sidebar-bg');
+
+    if (!sidebar) return;
+
+    // Scroll to top
+    sidebar.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    document.querySelectorAll('.skill-category').forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'scale(0.95)';
-        scaleObserver.observe(element);
-    });
+    // Hover animation on the blue pill (desktop only)
+    if (sidebarBg) {
+        let anim = null;
+
+        const hoverIn = () => {
+            if (anim) anim.pause();
+            anim = anime({
+                targets: sidebarBg,
+                scale: 1.07,
+                boxShadow: '0 10px 32px rgba(0,0,0,0.22)',
+                duration: 300,
+                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
+            });
+        };
+
+        const hoverOut = () => {
+            if (anim) anim.pause();
+            anim = anime({
+                targets: sidebarBg,
+                scale: 1,
+                boxShadow: '0 0px 0px rgba(0,0,0,0)',
+                duration: 300,
+                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
+            });
+        };
+
+        sidebar.addEventListener('mouseenter', hoverIn);
+        sidebar.addEventListener('mouseleave', hoverOut);
+        sidebar.addEventListener('focus',      hoverIn);
+        sidebar.addEventListener('blur',       hoverOut);
+    }
+}
+
+
+/* ==========================================================
+   4. MENU SYSTEM
+   
+   How it works:
+   - At the top of the page: the floating text menu (.menu / .menu-container)
+     is visible.
+   - Once scrolled past SCROLL_THRESHOLD px: the text menu fades out and the
+     compact icon button (.right-menu) fades in.
+   - Clicking the icon button toggles a dropdown that contains a copy of the
+     navigation links.
+   - Navigation links on both menus are driven by the NAV_LINKS map below —
+     edit this map to change where each item goes.
+   - Works identically on index.html and all project pages because it only
+     reads from the DOM rather than assuming specific page structure.
+   ========================================================== */
+
+   const ALL_NAV_LINKS = {
+    'text-wrapper-2': { href: 'Mapping.html',       label: 'Mapping Sweden',         page: 'mapping' },
+    'text-wrapper-3': { href: 'Malmo_lib.html',      label: 'Malmö Library Research', page: 'malmo_lib' },
+    'text-wrapper-4': { href: 'Programing_AI.html',  label: 'Programing Assistive AI',page: 'programing_ai' },
+    'text-wrapper-5': { href: 'Kinesthetics.html',   label: 'Kinesthetics Prototyping',page: 'kinesthetics' },
 };
 
-// Add scroll progress indicator
-const addScrollProgress = () => {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    document.body.appendChild(progressBar);
+const HOME_LINK = { href: 'index.html', label: 'Home' };
 
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        
-        // Use Anime.js for smooth progress bar animation
-        if (typeof anime !== 'undefined') {
-            anime({
-                targets: progressBar,
-                width: scrolled + '%',
-                duration: 100,
+const SCROLL_THRESHOLD = 85; // px — when the switch happens
+
+function updateMenuForCurrentPage() {
+    const currentPage = document.body.dataset.page;
+    if (!currentPage || currentPage === 'index') return;
+
+    // All project links in display order
+    const projectOrder = [
+        { href: 'Mapping.html',      label: 'Mapping Sweden',          page: 'mapping' },
+        { href: 'Malmo_lib.html',    label: 'Malmö Library Research',  page: 'malmo_lib' },
+        { href: 'Programing_AI.html',label: 'Programing Assistive AI', page: 'programing_ai' },
+        { href: 'Kinesthetics.html', label: 'Kinesthetics Prototyping',page: 'kinesthetics' },
+    ];
+
+    // Remove the current page from the list
+    const remaining = projectOrder.filter(p => p.page !== currentPage);
+
+    // Build the final slot order: Home first, then the 3 remaining projects
+    const slots = [
+        { href: 'index.html', label: 'Home' },
+        ...remaining
+    ];
+
+    // Apply to each wrapper slot in order
+    const wrapperClasses = ['text-wrapper-2', 'text-wrapper-3', 'text-wrapper-4', 'text-wrapper-5'];
+
+    wrapperClasses.forEach((cls, i) => {
+        const link = slots[i];
+        document.querySelectorAll('.' + cls).forEach(el => {
+            el.textContent = link.label;
+            el.dataset.href = link.href;
+        });
+    });
+}
+
+function bindNavLinks(container) {
+    Object.entries(ALL_NAV_LINKS).forEach(([cls, data]) => {
+        container.querySelectorAll('.' + cls).forEach(el => {
+            el.addEventListener('click', () => {
+                window.location.href = el.dataset.href || data.href;
+            });
+        });
+    });
+}
+
+function bindMenuHovers(container) {
+    const selectors = Object.keys(ALL_NAV_LINKS).map(c => '.' + c).join(', ');
+    container.querySelectorAll(selectors).forEach(btn => {
+        let anim = null;
+        btn.style.backgroundColor = 'transparent';
+
+        btn.addEventListener('mouseenter', () => {
+            if (anim) anim.pause();
+            anim = anime({
+                targets: btn,
+                backgroundColor: 'rgba(255,255,255,0.12)',
+                duration: 180,
                 easing: 'easeOutQuad'
             });
-        } else {
-            progressBar.style.width = scrolled + '%';
-        }
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            if (anim) anim.pause();
+            anim = anime({
+                targets: btn,
+                backgroundColor: 'transparent',
+                duration: 180,
+                easing: 'easeOutQuad',
+                complete: () => { btn.style.backgroundColor = 'transparent'; anim = null; }
+            });
+        });
     });
-};
-
-// Initialize scroll progress
-addScrollProgress();
-
-// Add mobile menu functionality (kept for compatibility if you add a <nav>)
-const initMobileMenu = () => {
-    const nav = document.querySelector('nav');
-    if (!nav) return;
-
-    const menuButton = document.createElement('button');
-    menuButton.className = 'mobile-menu-button';
-    menuButton.innerHTML = '☰';
-    nav.appendChild(menuButton);
-
-    const navLinks = document.querySelector('.nav-links');
-    
-    menuButton.addEventListener('click', () => {
-        if (navLinks) navLinks.classList.toggle('active');
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (navLinks && !navLinks.contains(e.target) && !menuButton.contains(e.target)) {
-            navLinks.classList.remove('active');
-        }
-    });
-};
-
-// Initialize mobile menu if on mobile
-if (window.innerWidth <= 480) {
-    initMobileMenu();
 }
+
+function initMenu() {
+    // Swap current page's nav item for Home link first,
+    // before anything is cloned or bound
+    updateMenuForCurrentPage();
+
+    const textMenu        = document.querySelector('.menu-container') || document.querySelector('.menu');
+    const rightMenu       = document.querySelector('.right-menu');
+    const rightMenuBtn    = document.querySelector('.right-menu-button');
+    const rightMenuDropdown = document.querySelector('.right-menu-dropdown');
+
+    // Bind navigation + hovers on the text menu
+    if (textMenu) {
+        bindNavLinks(textMenu);
+        bindMenuHovers(textMenu);
+    }
+
+    // Nothing more to do if there's no right-menu in the HTML
+    if (!rightMenu || !rightMenuBtn || !rightMenuDropdown) return;
+
+    // --- Populate dropdown by cloning the menu group ---
+    if (textMenu) {
+        const source = textMenu.querySelector('.overlap-group') || textMenu.querySelector('.menu-group');
+        if (source) {
+            const clone = source.cloneNode(true);
+            rightMenuDropdown.appendChild(clone);
+            bindNavLinks(rightMenuDropdown);
+            bindMenuHovers(rightMenuDropdown);
+        }
+    }
+
+    // --- Dropdown open / close ---
+    let dropdownOpen = false;
+    let dropdownAnim = null;
+
+    function openDropdown() {
+        if (dropdownOpen) return;
+        dropdownOpen = true;
+        rightMenuDropdown.hidden = false;
+        rightMenu.classList.add('open');
+        rightMenuBtn.setAttribute('aria-expanded', 'true');
+
+        if (dropdownAnim) dropdownAnim.pause();
+        dropdownAnim = anime({
+            targets: rightMenuDropdown,
+            opacity: [0, 1],
+            translateY: [-8, 0],
+            scale: [0.96, 1],
+            duration: 200,
+            easing: 'cubicBezier(0.22, 1, 0.36, 1)'
+        });
+    }
+
+    function closeDropdown(callback) {
+        if (!dropdownOpen) { if (callback) callback(); return; }
+        dropdownOpen = false;
+        rightMenuBtn.setAttribute('aria-expanded', 'false');
+
+        if (dropdownAnim) dropdownAnim.pause();
+        dropdownAnim = anime({
+            targets: rightMenuDropdown,
+            opacity: [1, 0],
+            translateY: [0, -8],
+            scale: [1, 0.96],
+            duration: 180,
+            easing: 'cubicBezier(0.22, 1, 0.36, 1)',
+            complete: () => {
+                rightMenu.classList.remove('open');
+                rightMenuDropdown.hidden = true;
+                if (callback) callback();
+            }
+        });
+    }
+
+    rightMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownOpen ? closeDropdown() : openDropdown();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (dropdownOpen && !rightMenu.contains(e.target)) {
+            closeDropdown();
+        }
+    });
+
+    // --- Switch between text menu and icon menu on scroll ---
+    let menuState = null; // 'text' or 'icon'
+    let textAnim  = null;
+    let iconAnim  = null;
+
+    function showTextMenu() {
+        if (menuState === 'text') return;
+        menuState = 'text';
+
+        // Close dropdown first if open, then hide icon menu
+        closeDropdown(() => {
+            if (iconAnim) iconAnim.pause();
+            iconAnim = anime({
+                targets: rightMenu,
+                opacity: [1, 0],
+                translateX: [0, 6],
+                duration: 220,
+                easing: 'easeInOutQuad',
+                complete: () => {
+                    rightMenu.style.pointerEvents = 'none';
+                    rightMenu.style.visibility = 'hidden';
+                    rightMenu.setAttribute('aria-hidden', 'true');
+                }
+            });
+        });
+
+        if (textMenu) {
+            textMenu.style.pointerEvents = 'auto';
+            if (textAnim) textAnim.pause();
+            textAnim = anime({
+                targets: textMenu,
+                opacity: [0, 1],
+                translateX: [6, 0],
+                duration: 220,
+                easing: 'easeInOutQuad'
+            });
+        }
+    }
+
+    function showIconMenu() {
+        if (menuState === 'icon') return;
+        menuState = 'icon';
+
+        if (textMenu) {
+            if (textAnim) textAnim.pause();
+            textAnim = anime({
+                targets: textMenu,
+                opacity: [1, 0],
+                translateX: [0, 6],
+                duration: 220,
+                easing: 'easeInOutQuad',
+                complete: () => { textMenu.style.pointerEvents = 'none'; }
+            });
+        }
+
+        rightMenu.style.visibility = 'visible';
+        rightMenu.style.pointerEvents = 'auto';
+        rightMenu.setAttribute('aria-hidden', 'false');
+
+        if (iconAnim) iconAnim.pause();
+        iconAnim = anime({
+            targets: rightMenu,
+            opacity: [0, 1],
+            translateX: [6, 0],
+            duration: 220,
+            easing: 'easeInOutQuad'
+        });
+    }
+
+    function updateMenuOnScroll() {
+        const scrolled = window.scrollY || document.documentElement.scrollTop;
+        scrolled >= SCROLL_THRESHOLD ? showIconMenu() : showTextMenu();
+    }
+
+    // Set correct initial state without animating
+    const initiallyScrolled = (window.scrollY || document.documentElement.scrollTop) >= SCROLL_THRESHOLD;
+
+    if (initiallyScrolled) {
+        menuState = 'icon';
+        if (textMenu) { textMenu.style.opacity = '0'; textMenu.style.pointerEvents = 'none'; }
+        rightMenu.style.opacity = '1';
+        rightMenu.style.visibility = 'visible';
+        rightMenu.style.pointerEvents = 'auto';
+        rightMenu.setAttribute('aria-hidden', 'false');
+    } else {
+        menuState = 'text';
+        if (textMenu) { textMenu.style.opacity = '1'; textMenu.style.pointerEvents = 'auto'; }
+        rightMenu.style.opacity = '0';
+        rightMenu.style.visibility = 'hidden';
+        rightMenu.style.pointerEvents = 'none';
+        rightMenu.setAttribute('aria-hidden', 'true');
+    }
+
+    window.addEventListener('scroll', updateMenuOnScroll, { passive: true });
+}
+
+
+/* ==========================================================
+   5. SCROLL ANIMATIONS
+   Fade-in elements as they enter the viewport.
+   Add class "fade-in-on-scroll" to any element you want animated.
+   ========================================================== */
+
+function initScrollAnimations() {
+    const elements = document.querySelectorAll(
+        '.project-container, .About-container, .objective-container, .content-container, .outcome-container'
+    );
+
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            anime({
+                targets: entry.target,
+                opacity: [0, 1],
+                translateY: [24, 0],
+                duration: 560,
+                easing: 'easeOutQuad'
+            });
+            obs.unobserve(entry.target);
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    elements.forEach(el => {
+        el.style.opacity = '0';
+        observer.observe(el);
+    });
+}
+
+
+/* ==========================================================
+   6. UTILITIES
+   ========================================================== */
+
+// Smooth scroll for any anchor links
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(anchor.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+}
+
+
+/* ==========================================================
+   INIT — runs everything in the right order
+   ========================================================== */
+
+// Grid + loading screen can start immediately (before DOM ready)
+initLoadingScreen();
+
+document.addEventListener('DOMContentLoaded', () => {
+    initEntryAnimations();
+    initSidebar();
+    initMenu();
+    initScrollAnimations();
+    initSmoothScroll();
+});
