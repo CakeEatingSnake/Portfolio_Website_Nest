@@ -5,7 +5,7 @@
    1. Loading Screen  (index.html only)
    2. Page Entry Animations
    3. Sidebar
-   4. Menu System (text menu → icon menu on scroll)
+   4. Menu System
    5. Scroll Animations (Intersection Observer)
    6. Utilities
    ========================================================== */
@@ -13,7 +13,6 @@
 
 /* ==========================================================
    1. LOADING SCREEN
-   Only runs if #loading-overlay exists (index.html)
    ========================================================== */
 
    function mixColors(p) {
@@ -36,7 +35,6 @@ function createGrid() {
         container.appendChild(square);
     }
 
-    // Continuously shuffle square colors
     function shuffleColors() {
         anime({
             targets: '.square',
@@ -61,36 +59,27 @@ function hideLoadingScreen() {
 function initLoadingScreen() {
     const overlay = document.getElementById('loading-overlay');
     const desktop = document.querySelector('.desktop');
-    const currentPage = document.body.dataset.page;
 
-    // --- Project pages: simple fade in, no overlay needed ---
+    // Project pages: simple fade in
     if (!overlay) {
         if (desktop) {
-            // Small delay lets fonts and CSS fully apply before revealing
-            setTimeout(() => {
-                desktop.classList.add('loaded');
-            }, 300);
+            setTimeout(() => { desktop.classList.add('loaded'); }, 150);
         }
         return;
     }
 
-    // --- Index page: full loading animation ---
-    // Check if the animation has already played this session
+    // Index page: full animation, once per session
     const alreadyPlayed = sessionStorage.getItem('loadingPlayed');
-
     if (alreadyPlayed) {
-        // Skip straight to showing content
         overlay.style.display = 'none';
         if (desktop) desktop.classList.add('loaded');
         return;
     }
 
-    // First visit this session — play the full animation
     createGrid();
     window.addEventListener('load', () => {
         setTimeout(() => {
             hideLoadingScreen();
-            // Remember that it played so we skip it next time
             sessionStorage.setItem('loadingPlayed', 'true');
         }, 3000);
     });
@@ -99,23 +88,19 @@ function initLoadingScreen() {
 
 /* ==========================================================
    2. PAGE ENTRY ANIMATIONS
-   Runs on all pages. Animates whatever elements exist.
    ========================================================== */
 
 function initEntryAnimations() {
-    const sidebar  = document.querySelector('.left-sidebar');
+    const sidebar   = document.querySelector('.left-sidebar');
     const menuGroup = document.querySelector('.overlap-group') || document.querySelector('.menu-group');
 
-    // Index-only elements (gracefully skipped on project pages)
     const title       = document.querySelector('.title-wrapper');
     const lowertitle  = document.querySelector('.lowertitle');
     const detailtitle = document.querySelector('.detailtitle');
 
-    // Project-page header elements (gracefully skipped on index)
     const headerImage = document.querySelector('.header-image');
     const headerText  = document.querySelector('.text-container');
 
-    // Sidebar always animates in
     if (sidebar) {
         anime({
             targets: sidebar,
@@ -127,7 +112,6 @@ function initEntryAnimations() {
         });
     }
 
-    // Menu always animates in from top
     if (menuGroup) {
         anime({
             targets: menuGroup,
@@ -139,7 +123,6 @@ function initEntryAnimations() {
         });
     }
 
-    // Index hero text stagger
     const heroElements = [title, lowertitle, detailtitle].filter(Boolean);
     if (heroElements.length) {
         anime({
@@ -152,7 +135,6 @@ function initEntryAnimations() {
         });
     }
 
-    // Project page header fade in
     if (headerImage) {
         anime({
             targets: headerImage,
@@ -162,18 +144,14 @@ function initEntryAnimations() {
             easing: 'easeOutQuad'
         });
     }
+
     if (headerText) {
         anime({
             targets: headerText,
             opacity: [0, 1],
             duration: 600,
             delay: 400,
-            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)',
-            complete: (anim) => {
-                anim.animatables.forEach(a => {
-                    a.target.style.transform = '';
-                });
-            }
+            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
         });
     }
 }
@@ -181,7 +159,8 @@ function initEntryAnimations() {
 
 /* ==========================================================
    3. SIDEBAR
-   Scroll-to-top on click. Hover scale animation on the bg pill.
+   - On index.html: scrolls to top
+   - On project pages: navigates back to index.html
    ========================================================== */
 
 function initSidebar() {
@@ -190,13 +169,17 @@ function initSidebar() {
 
     if (!sidebar) return;
 
-    // Scroll to top
+    const currentPage = document.body.dataset.page;
+
     sidebar.addEventListener('click', (e) => {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (currentPage === 'index') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            window.location.href = 'index.html';
+        }
     });
 
-    // Hover animation on the blue pill (desktop only)
     if (sidebarBg) {
         let anim = null;
 
@@ -232,53 +215,31 @@ function initSidebar() {
 
 /* ==========================================================
    4. MENU SYSTEM
-   
-   How it works:
-   - At the top of the page: the floating text menu (.menu / .menu-container)
-     is visible.
-   - Once scrolled past SCROLL_THRESHOLD px: the text menu fades out and the
-     compact icon button (.right-menu) fades in.
-   - Clicking the icon button toggles a dropdown that contains a copy of the
-     navigation links.
-   - Navigation links on both menus are driven by the NAV_LINKS map below —
-     edit this map to change where each item goes.
-   - Works identically on index.html and all project pages because it only
-     reads from the DOM rather than assuming specific page structure.
+   Text menu always visible. Current page slot becomes Home.
    ========================================================== */
 
-   const ALL_NAV_LINKS = {
-    'text-wrapper-2': { href: 'Mapping.html',       label: 'Mapping Sweden',         page: 'mapping' },
-    'text-wrapper-3': { href: 'Malmo_lib.html',      label: 'Malmö Library Research', page: 'malmo_lib' },
-    'text-wrapper-4': { href: 'Programing_AI.html',  label: 'Programing Assistive AI',page: 'programing_ai' },
-    'text-wrapper-5': { href: 'Kinesthetics.html',   label: 'Kinesthetics Prototyping',page: 'kinesthetics' },
+const ALL_NAV_LINKS = {
+    'text-wrapper-2': { href: 'Mapping.html',        label: 'Mapping Sweden',           page: 'mapping' },
+    'text-wrapper-3': { href: 'Malmo_lib.html',       label: 'Malmö Library Research',   page: 'malmo_lib' },
+    'text-wrapper-4': { href: 'Programing_AI.html',   label: 'Programing Assistive AI',  page: 'programing_ai' },
+    'text-wrapper-5': { href: 'Kinesthetics.html',    label: 'Kinesthetics Prototyping', page: 'kinesthetics' },
 };
 
 const HOME_LINK = { href: 'index.html', label: 'Home' };
-
-const SCROLL_THRESHOLD = 85; // px — when the switch happens
 
 function updateMenuForCurrentPage() {
     const currentPage = document.body.dataset.page;
     if (!currentPage || currentPage === 'index') return;
 
-    // All project links in display order
     const projectOrder = [
-        { href: 'Mapping.html',      label: 'Mapping Sweden',          page: 'mapping' },
-        { href: 'Malmo_lib.html',    label: 'Malmö Library Research',  page: 'malmo_lib' },
-        { href: 'Programing_AI.html',label: 'Programing Assistive AI', page: 'programing_ai' },
-        { href: 'Kinesthetics.html', label: 'Kinesthetics Prototyping',page: 'kinesthetics' },
+        { href: 'Mapping.html',       label: 'Mapping Sweden',           page: 'mapping' },
+        { href: 'Malmo_lib.html',     label: 'Malmö Library Research',   page: 'malmo_lib' },
+        { href: 'Programing_AI.html', label: 'Programing Assistive AI',  page: 'programing_ai' },
+        { href: 'Kinesthetics.html',  label: 'Kinesthetics Prototyping', page: 'kinesthetics' },
     ];
 
-    // Remove the current page from the list
     const remaining = projectOrder.filter(p => p.page !== currentPage);
-
-    // Build the final slot order: Home first, then the 3 remaining projects
-    const slots = [
-        { href: 'index.html', label: 'Home' },
-        ...remaining
-    ];
-
-    // Apply to each wrapper slot in order
+    const slots = [HOME_LINK, ...remaining];
     const wrapperClasses = ['text-wrapper-2', 'text-wrapper-3', 'text-wrapper-4', 'text-wrapper-5'];
 
     wrapperClasses.forEach((cls, i) => {
@@ -330,190 +291,18 @@ function bindMenuHovers(container) {
 }
 
 function initMenu() {
-    // Swap current page's nav item for Home link first,
-    // before anything is cloned or bound
     updateMenuForCurrentPage();
 
-    const textMenu        = document.querySelector('.menu-container') || document.querySelector('.menu');
-    const rightMenu       = document.querySelector('.right-menu');
-    const rightMenuBtn    = document.querySelector('.right-menu-button');
-    const rightMenuDropdown = document.querySelector('.right-menu-dropdown');
-
-    // Bind navigation + hovers on the text menu
+    const textMenu = document.querySelector('.menu-container') || document.querySelector('.menu');
     if (textMenu) {
         bindNavLinks(textMenu);
         bindMenuHovers(textMenu);
     }
-
-    // Nothing more to do if there's no right-menu in the HTML
-    if (!rightMenu || !rightMenuBtn || !rightMenuDropdown) return;
-
-    // --- Populate dropdown by cloning the menu group ---
-    if (textMenu) {
-        const source = textMenu.querySelector('.overlap-group') || textMenu.querySelector('.menu-group');
-        if (source) {
-            const clone = source.cloneNode(true);
-            rightMenuDropdown.appendChild(clone);
-            bindNavLinks(rightMenuDropdown);
-            bindMenuHovers(rightMenuDropdown);
-        }
-    }
-
-    // --- Dropdown open / close ---
-    let dropdownOpen = false;
-    let dropdownAnim = null;
-
-    function openDropdown() {
-        if (dropdownOpen) return;
-        dropdownOpen = true;
-        rightMenuDropdown.hidden = false;
-        rightMenu.classList.add('open');
-        rightMenuBtn.setAttribute('aria-expanded', 'true');
-
-        if (dropdownAnim) dropdownAnim.pause();
-        dropdownAnim = anime({
-            targets: rightMenuDropdown,
-            opacity: [0, 1],
-            translateY: [-8, 0],
-            scale: [0.96, 1],
-            duration: 200,
-            easing: 'cubicBezier(0.22, 1, 0.36, 1)'
-        });
-    }
-
-    function closeDropdown(callback) {
-        if (!dropdownOpen) { if (callback) callback(); return; }
-        dropdownOpen = false;
-        rightMenuBtn.setAttribute('aria-expanded', 'false');
-
-        if (dropdownAnim) dropdownAnim.pause();
-        dropdownAnim = anime({
-            targets: rightMenuDropdown,
-            opacity: [1, 0],
-            translateY: [0, -8],
-            scale: [1, 0.96],
-            duration: 180,
-            easing: 'cubicBezier(0.22, 1, 0.36, 1)',
-            complete: () => {
-                rightMenu.classList.remove('open');
-                rightMenuDropdown.hidden = true;
-                if (callback) callback();
-            }
-        });
-    }
-
-    rightMenuBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdownOpen ? closeDropdown() : openDropdown();
-    });
-
-    document.addEventListener('click', (e) => {
-        if (dropdownOpen && !rightMenu.contains(e.target)) {
-            closeDropdown();
-        }
-    });
-
-    // --- Switch between text menu and icon menu on scroll ---
-    let menuState = null; // 'text' or 'icon'
-    let textAnim  = null;
-    let iconAnim  = null;
-
-    function showTextMenu() {
-        if (menuState === 'text') return;
-        menuState = 'text';
-
-        // Close dropdown first if open, then hide icon menu
-        closeDropdown(() => {
-            if (iconAnim) iconAnim.pause();
-            iconAnim = anime({
-                targets: rightMenu,
-                opacity: [1, 0],
-                translateX: [0, 6],
-                duration: 220,
-                easing: 'easeInOutQuad',
-                complete: () => {
-                    rightMenu.style.pointerEvents = 'none';
-                    rightMenu.style.visibility = 'hidden';
-                    rightMenu.setAttribute('aria-hidden', 'true');
-                }
-            });
-        });
-
-        if (textMenu) {
-            textMenu.style.pointerEvents = 'auto';
-            if (textAnim) textAnim.pause();
-            textAnim = anime({
-                targets: textMenu,
-                opacity: [0, 1],
-                translateX: [6, 0],
-                duration: 220,
-                easing: 'easeInOutQuad'
-            });
-        }
-    }
-
-    function showIconMenu() {
-        if (menuState === 'icon') return;
-        menuState = 'icon';
-
-        if (textMenu) {
-            if (textAnim) textAnim.pause();
-            textAnim = anime({
-                targets: textMenu,
-                opacity: [1, 0],
-                translateX: [0, 6],
-                duration: 220,
-                easing: 'easeInOutQuad',
-                complete: () => { textMenu.style.pointerEvents = 'none'; }
-            });
-        }
-
-        rightMenu.style.visibility = 'visible';
-        rightMenu.style.pointerEvents = 'auto';
-        rightMenu.setAttribute('aria-hidden', 'false');
-
-        if (iconAnim) iconAnim.pause();
-        iconAnim = anime({
-            targets: rightMenu,
-            opacity: [0, 1],
-            translateX: [6, 0],
-            duration: 220,
-            easing: 'easeInOutQuad'
-        });
-    }
-
-    function updateMenuOnScroll() {
-        const scrolled = window.scrollY || document.documentElement.scrollTop;
-        scrolled >= SCROLL_THRESHOLD ? showIconMenu() : showTextMenu();
-    }
-
-    // Set correct initial state without animating
-    const initiallyScrolled = (window.scrollY || document.documentElement.scrollTop) >= SCROLL_THRESHOLD;
-
-    if (initiallyScrolled) {
-        menuState = 'icon';
-        if (textMenu) { textMenu.style.opacity = '0'; textMenu.style.pointerEvents = 'none'; }
-        rightMenu.style.opacity = '1';
-        rightMenu.style.visibility = 'visible';
-        rightMenu.style.pointerEvents = 'auto';
-        rightMenu.setAttribute('aria-hidden', 'false');
-    } else {
-        menuState = 'text';
-        if (textMenu) { textMenu.style.opacity = '1'; textMenu.style.pointerEvents = 'auto'; }
-        rightMenu.style.opacity = '0';
-        rightMenu.style.visibility = 'hidden';
-        rightMenu.style.pointerEvents = 'none';
-        rightMenu.setAttribute('aria-hidden', 'true');
-    }
-
-    window.addEventListener('scroll', updateMenuOnScroll, { passive: true });
 }
 
 
 /* ==========================================================
    5. SCROLL ANIMATIONS
-   Fade-in elements as they enter the viewport.
-   Add class "fade-in-on-scroll" to any element you want animated.
    ========================================================== */
 
 function initScrollAnimations() {
@@ -548,7 +337,6 @@ function initScrollAnimations() {
    6. UTILITIES
    ========================================================== */
 
-// Smooth scroll for any anchor links
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', (e) => {
@@ -561,10 +349,9 @@ function initSmoothScroll() {
 
 
 /* ==========================================================
-   INIT — runs everything in the right order
+   INIT
    ========================================================== */
 
-// Grid + loading screen can start immediately (before DOM ready)
 initLoadingScreen();
 
 document.addEventListener('DOMContentLoaded', () => {
