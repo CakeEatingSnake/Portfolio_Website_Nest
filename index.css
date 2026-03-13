@@ -108,7 +108,6 @@ html {
     align-items: center;
     justify-content: center;
     margin-top: 200px;
-    gap: rem; /* adds breathing room between the two sides */
 }
 
 .title-container {
@@ -370,6 +369,7 @@ html {
       /* Hero Section */
       .hero {
           padding: 80px 20px 20px;
+          margin-top: 10px;
       }
   
       .title-container {
@@ -384,17 +384,12 @@ html {
       }
   
       .desktop .title-wrapper {
-          font-size: 2.5rem;
+          font-size: 3rem;
           line-height: 1.2;
       }
   
       .video-container {
         display: none;
-      }
-  
-      /* Remove <br> on mobile for the hero title */
-      .title-wrapper br {
-          display: none;
       }
   
       .title-wrapper br::after {
@@ -452,7 +447,7 @@ html {
   
       .desktop .project-description {
           display: block;
-          font-size: 0.8rem;
+          font-size: 0.95rem;
       }
   
       /* Force background color for visibility */

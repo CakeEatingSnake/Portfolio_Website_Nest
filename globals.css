@@ -72,6 +72,7 @@ html::-webkit-scrollbar {
 html {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 /* ==========================
@@ -97,85 +98,105 @@ html {
    ========================== */
 
 .leftsidebar-container {
-  position: absolute;
-  text-align: center;
-  left: 70px;
-  top: 90px;
+  position: fixed;
+  top: 40px;
+  left: 32px;
+  z-index: 100;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.leftsidebar-container.sidebar-visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
 }
 
 .left-sidebar {
-  position: fixed;
-  top: 90px;
-  left: 70px;
+  position: relative;
   width: 61px;
-  height: 658px;
+  height: 580px;
   z-index: 5;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 8px;
-  opacity: 0;
-  transform: translateY(-40px);
-  transform-origin: center;
-  will-change: transform;
+  padding-top: 16px;
   outline: none;
   border: none;
   background: none;
+  cursor: pointer;
 }
 
+/* Main tall rectangle body */
 .sidebar-bg {
   position: absolute;
+  top: 0;
   width: 100%;
-  height: 80%;
-  border-radius: 45px;
-  background: #0380F7;
+  height: calc(100% - 28px); /* leaves room for accent at bottom */
+  border-radius: 12px;
+  background: var(--sidebar-color, #0380F7);
   z-index: 0;
-  box-shadow: none;
+  transition: background 0.3s ease;
+}
+
+/* Small darker accent at the bottom */
+.sidebar-accent {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--sidebar-accent-color, #0260c4);
+  z-index: 0;
 }
 
 .left-sidebar .sidebar-icon {
   position: relative;
   z-index: 1;
-  top: 10px;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  margin-top: 4px;
+  width: 36px;
+  height: auto;
+  transition: transform 0.2s ease;
 }
 
 .left-sidebar .sidebar-icon-mobile {
   display: none;
-  opacity: 0;
 }
 
 .left-sidebar .sidebar-icon-desktop {
   display: block;
-  opacity: 1;
 }
 
 .left-sidebar .sidebar-text {
   position: absolute;
-  top: calc(35% + var(--sidebar-text-offset-y, 0px));
-  left: calc(50% + var(--sidebar-text-offset-x, 0px));
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%) rotate(90deg);
-  padding: 6px 10px;
   color: #ffffff;
   font-family: "Instrument";
-  font-size: 50px;
-  letter-spacing: 2px;
-  border-radius: 6px;
+  font-size: 36px;
+  letter-spacing: 3px;
   white-space: nowrap;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.lower-left-sidebar {
-  position: fixed;
-  border-radius: 45px;
-  top: 400px;
-  width: 61px;
-  height: 300px;
-  background: #ffffff;
-  z-index: 4;
-  box-sizing: border-box;
-  opacity: 0;
+/* Compact sidebar - no text, smaller height */
+.left-sidebar.sidebar-compact {
+  height: 120px;
+}
+
+.left-sidebar.sidebar-compact .sidebar-text {
+  display: none;
+}
+
+/* Hover lift effect on the icon */
+.left-sidebar:hover .sidebar-icon {
+  transform: translateY(-3px);
 }
 
 /* ==========================
@@ -353,52 +374,26 @@ end-banner {
 /* 2. Compact Screen Adjustments */
 @media (max-width: 1460px) {
 
-    /* Left Sidebar - Collapse to circular button */
+    /* Left Sidebar - Compact rectangle, no text */
     .leftsidebar-container {
         left: 16px;
-        top: 16px;
+        top: 30px;
     }
 
     .left-sidebar {
-        top: 16px;
-        left: 16px;
-        width: clamp(40px, 10vw, 56px);
-        height: clamp(40px, 10vw, 56px);
-        border-radius: 50%;
-        padding-top: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .sidebar-bg {
-        height: 100%;
-        border-radius: 50%;
-        display: none;
+        height: 120px;
     }
 
     .left-sidebar .sidebar-text {
         display: none;
     }
 
-    .lower-left-sidebar {
-        display: none;
+    .sidebar-bg {
+        border-radius: 10px;
     }
 
-    .left-sidebar .sidebar-icon-desktop {
-        display: none;
-        opacity: 0;
-    }
-
-    .left-sidebar .sidebar-icon-mobile {
-        display: block;
-        opacity: 1;
-        top: 0;
-        left: 5px;
-        width: clamp(60px, 10vw, 80px);
-        object-fit: contain;
-        position: absolute;
-        z-index: 1;
+    .sidebar-accent {
+        border-radius: 6px;
     }
 
     /* Desktop Menu, this is suprise tool that will help us later*/

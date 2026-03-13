@@ -91,7 +91,6 @@ function initLoadingScreen() {
    ========================================================== */
 
 function initEntryAnimations() {
-    const sidebar   = document.querySelector('.left-sidebar');
     const menuGroup = document.querySelector('.overlap-group') || document.querySelector('.menu-group');
 
     const title       = document.querySelector('.title-wrapper');
@@ -100,17 +99,6 @@ function initEntryAnimations() {
 
     const headerImage = document.querySelector('.header-image');
     const headerText  = document.querySelector('.text-container');
-
-    if (sidebar) {
-        anime({
-            targets: sidebar,
-            opacity: [0, 1],
-            translateY: [-40, 0],
-            duration: 700,
-            delay: 400,
-            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-        });
-    }
 
     if (menuGroup) {
         anime({
@@ -159,27 +147,43 @@ function initEntryAnimations() {
 
 /* ==========================================================
    3. SIDEBAR
+   - Appears from left after scrolling down SIDEBAR_THRESHOLD px
    - On index.html: scrolls to top
    - On project pages: navigates back to index.html
    ========================================================== */
 
+const SIDEBAR_THRESHOLD = 120; // px scrolled before sidebar appears
+
 function initSidebar() {
+    const container = document.querySelector('.leftsidebar-container');
     const sidebar   = document.querySelector('.left-sidebar');
     const sidebarBg = document.querySelector('.sidebar-bg');
 
-    if (!sidebar) return;
+    if (!sidebar || !container) return;
 
     const currentPage = document.body.dataset.page;
 
+    // Click behaviour
     sidebar.addEventListener('click', (e) => {
         e.preventDefault();
-        if (currentPage === 'index') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            window.location.href = 'index.html';
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    // Scroll-triggered appearance
+    function updateSidebarVisibility() {
+        const scrolled = window.scrollY || document.documentElement.scrollTop;
+        if (scrolled >= SIDEBAR_THRESHOLD) {
+            container.classList.add('sidebar-visible');
+        } else {
+            container.classList.remove('sidebar-visible');
+        }
+    }
+
+    // Set correct initial state
+    updateSidebarVisibility();
+    window.addEventListener('scroll', updateSidebarVisibility, { passive: true });
+
+    // Hover lift on the bg rectangle
     if (sidebarBg) {
         let anim = null;
 
@@ -187,9 +191,9 @@ function initSidebar() {
             if (anim) anim.pause();
             anim = anime({
                 targets: sidebarBg,
-                scale: 1.07,
-                boxShadow: '0 10px 32px rgba(0,0,0,0.22)',
-                duration: 300,
+                translateY: -4,
+                boxShadow: '0 10px 32px rgba(0,0,0,0.3)',
+                duration: 250,
                 easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
             });
         };
@@ -198,17 +202,15 @@ function initSidebar() {
             if (anim) anim.pause();
             anim = anime({
                 targets: sidebarBg,
-                scale: 1,
+                translateY: 0,
                 boxShadow: '0 0px 0px rgba(0,0,0,0)',
-                duration: 300,
+                duration: 250,
                 easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
             });
         };
 
         sidebar.addEventListener('mouseenter', hoverIn);
         sidebar.addEventListener('mouseleave', hoverOut);
-        sidebar.addEventListener('focus',      hoverIn);
-        sidebar.addEventListener('blur',       hoverOut);
     }
 }
 
