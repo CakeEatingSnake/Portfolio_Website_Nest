@@ -42,7 +42,7 @@
     background-color: #005532;
     width: 100%;
     max-width: 1200px;
-    top: 9rem;
+    top: 3rem;
     margin: 0 auto;
     z-index: 2;
     box-sizing: border-box;
@@ -79,7 +79,6 @@
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    padding-bottom: 6rem;
     box-sizing: border-box;
 }
 
@@ -103,7 +102,7 @@
 
 .text-container {
     position: absolute;
-    top: 75%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -100%);
     z-index: 3;
@@ -124,6 +123,8 @@
     font-weight: 700;
     font-size: 36px;
     transform: scaleY(1.7);
+    padding-bottom: 22px;
+    z-index: 2;
 }
 
 .bot-container {
@@ -264,31 +265,26 @@
 /* ==========================
    Gird for Malmo_Lib html
    ========================== */
-
    .content-grid2 {
     display: grid;
-/* What a horrible solution, but this is the only way I can rearrage the elements the way I want. Too Bad! */
-    grid-template-columns: 1fr 1fr 1fr; 
-    grid-template-areas: 
-    "img1 img1 img1 img1 box1 box1"
-    "img1 img1 img1 img1 box1 box1"
-    "img1 img1 img1 img1 box2 box2"
-    "img1 img1 img1 img1 box2 box2"
-    "img2 img2 img2 img3 img3 box3"
-    "img2 img2 img2 img3 img3 box3"
-    "box5 box5 box5 img3 img3 box3"
-    "img4 img4 img4 img4 box4 box4";
-    gap: 3rem;
+    grid-template-columns: 2fr 2fr 2fr 2fr 3fr;
+    grid-template-areas:
+        "img1  img1  img1  img1  box1"
+        "img1  img1  img1  img1  box2"
+        "box5  box5  img3  img3  box3"
+        "img2  img2  img3  img3  box3"
+        "img4  img4  img4  img4  box4";
+    gap: 2rem;
     align-items: start;
     width: 100%;
+    margin-top: 3rem;
 }
-
 .lib-img1 { grid-area: img1; width: 100%; }
 .lib-img2 { grid-area: img2; width: 100%; }
 .lib-img3 { grid-area: img3; width: 100%; }
 .lib-img4 { grid-area: img4; width: 100%; }
-
-
+ 
+ 
 /* ==========================
    Gird for Kinesthetics html
    ========================== */
@@ -465,6 +461,7 @@
 
     .text-container {
         width: 200px; /* Slightly narrower to fit smaller header images */
+        top: 75%;
     }
     
     .title {
@@ -632,11 +629,14 @@
     }
 
     /* End Banner Adjustments */
+    /* Note: When testing in devtools, although it doesn't look like it, it's working correctly.
+    It's just something with the dev tool responsive features that are causing it to clip */
     end-banner {
         flex-direction: column;
         padding: 40px 20px;
         text-align: center;
         background-size: cover;
+        margin-top: auto;
     }
 
     .end-accent {

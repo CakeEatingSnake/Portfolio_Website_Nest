@@ -208,7 +208,7 @@ html {
     display: flex;
     top: 40px;
     margin-top: 10px;
-    margin-left: auto;
+
     height: auto;
     z-index: 10;
     left: auto;
@@ -365,11 +365,7 @@ end-banner {
    ========================================================== */
 
 /* 1. Large Screen Adjustments */
-@media (min-width: 1200px) {
-    .desktop .div {
-        padding-top: 10rem;
-    }
-}
+
 
 /* 2. Compact Screen Adjustments */
 @media (max-width: 1460px) {
@@ -403,7 +399,6 @@ end-banner {
 
 
     .desktop .overlap-group {
-        margin-left: 5%;
         min-width: 160px;
         gap: 6px;
         flex-direction: row;
