@@ -242,47 +242,125 @@
 .content-box6 { grid-area: box6; }
 
 /* ==========================
-   Gird for Mapping html
+   Grid for Mapping html
    ========================== */
 
 .content-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    grid-template-areas: 
-        "img1 box1"
-        "img1 box2"
-        "img2 box3"
-        "img3 box4";
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
     width: 100%;
     margin-top: 3rem;
 }
 
-.map-img1 { grid-area: img1; width: 100%; height: auto; }
-.map-img2 { grid-area: img2; width: 100%; height: auto; }
-.map-img3 { grid-area: img3; width: 100%; height: auto; }
+.map-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.map-row-img {
+    flex: 1.2;
+    min-width: 0;
+}
+
+.map-row-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.map-row-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
 
 /* ==========================
-   Gird for Malmo_Lib html
+   Grid for Malmo_Lib html — Absolute positioning - This is cringe but the grid sucks, and I am not dealing with it anymore
    ========================== */
-   .content-grid2 {
-    display: grid;
-    grid-template-columns: 2fr 2fr 2fr 2fr 3fr;
-    grid-template-areas:
-        "img1  img1  img1  img1  box1"
-        "img1  img1  img1  img1  box2"
-        "box5  box5  img3  img3  box3"
-        "img2  img2  img3  img3  box3"
-        "img4  img4  img4  img4  box4";
-    gap: 2rem;
-    align-items: start;
+
+.content-grid2 {
+    position: relative;
     width: 100%;
+    height: 1100px;
     margin-top: 3rem;
 }
-.lib-img1 { grid-area: img1; width: 100%; }
-.lib-img2 { grid-area: img2; width: 100%; }
-.lib-img3 { grid-area: img3; width: 100%; }
-.lib-img4 { grid-area: img4; width: 100%; }
+
+.lib-img1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 62%;
+    height: auto;
+    display: block;
+}
+
+.content-grid2 .content-box1 {
+    position: absolute;
+    top: 0;
+    left: 64%;
+    width: 34%;
+}
+
+.content-grid2 .content-box2 {
+    position: absolute;
+    top: 170px;
+    left: 64%;
+    width: 34%;
+}
+
+.content-grid2 .content-box5 {
+    position: absolute;
+    top: 280px;
+    left: -30px;
+    width: 30%;
+}
+
+.lib-img2 {
+    position: absolute;
+    top: 430px;
+    left: -30px;
+    width: 30%;
+    height: auto;
+    display: block;
+}
+
+.lib-img3 {
+    position: absolute;
+    top: 465px;
+    left: 26.5%;
+    width: 35%;
+    height: auto;
+    display: block;
+}
+
+.content-grid2 .content-box3 {
+    position: absolute;
+    top: 490px;
+    left: 64%;
+    width: 34%;
+}
+
+.lib-img4 {
+    position: absolute;
+    top: 800px;
+    left: -78px;
+    width: 70%;
+    height: auto;
+    display: block;
+}
+
+.content-grid2 .content-box4 {
+    position: absolute;
+    top: 800px;
+    left: 64%;
+    width: 34%;
+}
  
  
 /* ==========================
@@ -429,7 +507,7 @@
 }
 
 /* ==========================================================
-   RESPONSIVE DESIGN (created by AI Gemini) \/ \/ \/ With some touches with the grid and the background frame.
+   RESPONSIVE DESIGN
    ========================================================== */
 
 /* 1. Large Screens: Constrain the background frame */
@@ -445,6 +523,14 @@
 
     .project-frame {
         padding-bottom: 2rem;
+    }
+
+    .lib-img4 {
+        left: -50px;
+    }
+
+    .content-grid2 .content-box5 {
+        top: 225px;
     }
 
     .objective-container, 
@@ -555,22 +641,51 @@
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+        height: auto !important;
     }
 
     /* ==========================
    The mobile only is critical to this working, it affects the type of display image involved.
    ========================== */
 
-   .content-grid {
-    .map-img1 { order: 1; }
-    .content-box1 { order: 2; }
-    .content-box2 { order: 3; } /* Box 2 follows Box 1 in your desktop grid */
-    .map-img2 { order: 4; }
-    .content-box3 { order: 5; }
-    .map-img3 { order: 6; }
-    .content-box4 { order: 7; }
+  /* ==========================
+    Mapping mobile CSS
+   ========================== */
+
+    .content-grid {
+        flex-direction: column;
+    }
+
+    .map-row {
+        flex-direction: column;
+    }
+
+    .map-row-img,
+    .map-row-text {
+        width: 100%;
+        flex: none;
     }
     
+ /* ==========================
+    Library mobile CSS
+   ========================== */
+
+    .content-grid2 .lib-img1,
+    .content-grid2 .lib-img2,
+    .content-grid2 .lib-img3,
+    .content-grid2 .lib-img4,
+    .content-grid2 .content-box1,
+    .content-grid2 .content-box2,
+    .content-grid2 .content-box3,
+    .content-grid2 .content-box4,
+    .content-grid2 .content-box5 {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
     .content-grid2 {
     .lib-img1 { order: 1; }
     .content-box1 { order: 2; }
@@ -582,6 +697,11 @@
     .lib-img4 { order: 8; }
     .content-box4 { order: 9; }
     }
+
+    
+ /* ==========================
+    Kinesthetics mobile CSS
+   ========================== */
 
     .content-grid3 {
     .Kine-img1 { order: 1; }
@@ -598,6 +718,10 @@
     .Kine-img6 { order: 12; }
     }
 
+ /* ==========================
+    AI mobile CSS
+   ========================== */
+
     .content-grid4 {
     .AI-img1 { order: 1; }
     .content-box1 { order: 2; }
@@ -608,6 +732,11 @@
     .AI-img4 { order: 7; }
     .content-box4 { order: 8; }
     }
+
+
+     /* ==========================
+    Outcome mobile CSS
+   ========================== */
 
     .outcome-frame {
         flex-direction: column !important;
