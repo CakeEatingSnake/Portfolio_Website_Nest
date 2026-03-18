@@ -347,6 +347,25 @@ html {
       width: 100%;
       opacity: 1;
   }
+
+  .project-container {
+    transition: opacity 0.2s ease;
+}
+
+  .project-container:hover {
+    opacity: 0.8;
+}
+
+.project-container {
+    border-left: 4px solid transparent;
+    transition: border-color 0.2s ease;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.project-container:hover {
+    border-left-color: #ffffff;
+}
   
   /* ==========================================================
      RESPONSIVE DESIGN FOR INDEX

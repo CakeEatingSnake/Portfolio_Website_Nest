@@ -348,6 +348,8 @@ end-banner {
   flex-direction: row;
   align-items: center;
   gap: 10px;
+
+  transition: opacity 0.2s ease;
 }
 
 .icon-img {
@@ -358,6 +360,11 @@ end-banner {
   font-family: 'Times New Roman', Times, serif;
   font-size: 16px;
   color: #ffffff;
+  text-decoration: none;
+}
+
+.contact-container a {
+  text-decoration: none;
 }
 
 /* ==========================================================
@@ -484,6 +491,9 @@ end-banner {
     .contact-row {
         justify-content: center;
         padding-right: 12px;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
     }
 
     .end-name {

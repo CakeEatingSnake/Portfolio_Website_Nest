@@ -351,6 +351,25 @@ function initSmoothScroll() {
 
 
 /* ==========================================================
+   7. PROJECT NAVIGATION
+   ========================================================== */
+
+const projectLinks = {
+    0: 'Mapping.html',
+    1: 'Kinesthetics.html',
+    2: 'Malmo_lib.html',
+    3: 'Programing_AI.html'
+};
+
+document.querySelectorAll('.project-container').forEach((container, index) => {
+    container.style.cursor = 'pointer';
+    container.addEventListener('click', () => {
+        window.location.href = projectLinks[index];
+    });
+});
+
+
+/* ==========================================================
    INIT
    ========================================================== */
 
