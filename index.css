@@ -7,6 +7,8 @@ html {
       margin: 0;
       padding: 0;
       background-color: #0B0B0B;
+      --sidebar-color: #0380F7;
+      --sidebar-accent-color: #0260c4;
   }
   
   /* ==========================

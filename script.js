@@ -183,35 +183,33 @@ function initSidebar() {
     updateSidebarVisibility();
     window.addEventListener('scroll', updateSidebarVisibility, { passive: true });
 
-    // Hover lift on the bg rectangle
-    if (sidebarBg) {
-        let anim = null;
+    // Hover lift on the whole sidebar
+    let anim = null;
+    
+    const inner = container.querySelector('.sidebar-inner');
 
-        const hoverIn = () => {
-            if (anim) anim.pause();
-            anim = anime({
-                targets: sidebarBg,
-                translateY: -4,
-                boxShadow: '0 10px 32px rgba(0,0,0,0.3)',
-                duration: 250,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-            });
-        };
+    const hoverIn = () => {
+        if (anim) anim.pause();
+        anim = anime({
+            targets: inner,
+            translateY: -8,
+            duration: 300,
+            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
+        });
+    };
+    
+    const hoverOut = () => {
+        if (anim) anim.pause();
+        anim = anime({
+            targets: inner,
+            translateY: 0,
+            duration: 300,
+            easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
+        });
+    };
 
-        const hoverOut = () => {
-            if (anim) anim.pause();
-            anim = anime({
-                targets: sidebarBg,
-                translateY: 0,
-                boxShadow: '0 0px 0px rgba(0,0,0,0)',
-                duration: 250,
-                easing: 'cubicBezier(0.21, 0.61, 0.35, 1)'
-            });
-        };
-
-        sidebar.addEventListener('mouseenter', hoverIn);
-        sidebar.addEventListener('mouseleave', hoverOut);
-    }
+    sidebar.addEventListener('mouseenter', hoverIn);
+    sidebar.addEventListener('mouseleave', hoverOut);
 }
 
 
